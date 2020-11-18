@@ -66,6 +66,11 @@ export default {
       errors: state => state.auth.errors
     })
   },
+  mounted () {
+    console.log(process.env.AUTHENDPOINT)
+    console.log(process.env.MONGOENDPOINT)
+    console.log(process.env.DEBUGG)
+  },
   methods: {
     autenticacion (form) {
       this.$store.dispatch('logout')
