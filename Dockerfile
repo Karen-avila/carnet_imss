@@ -19,7 +19,7 @@ RUN npm install -g @quasar/cli
 RUN npm i
 RUN npm rebuild node-sass
 
-RUN chown -R 771 /app
+RUN chmod -R 771 /app
 RUN chown -R default:root /app
 
 
