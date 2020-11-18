@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+
+  quasar:
+    working_dir: /app
+    volumes:
+      - ./:/app:z
+    env_file:
+      - ./.envs/.local/.quasar
+    ports:
+      - "8080:8080"
+    build:
+      context: .
+      dockerfile: ./docker/qa/Dockerfile
+    command: npm run serve
+    restart: on-failure

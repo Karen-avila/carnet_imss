@@ -6,11 +6,10 @@
   "author": "@gcastellan0s",
   "private": true,
   "scripts": {
-    "serve": "npm i && npm rebuild node-sass && quasar dev",
-    "start": "npm i",
+    "serve": "npm install -g @quasar/cli && npm i && npm rebuild node-sass && quasar dev",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
-    "build": "npm i && quasar build"
+    "build": "quasar build"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
