@@ -3,7 +3,7 @@
     .row.q-py-md.q-px-xl
       .col
         span.text-h4 Carnet
-        q-separator(color='secondary' size='2px')
+        q-separator(color='grey-4' size='2px')
         q-separator.q-mb-md(color='secondary' size='.5rem' style='max-width:2.5rem')
         q-form
           p INGRESA LOS DATOS DEL PACIENTE
@@ -16,8 +16,6 @@
                   label='CURP'
                   lazy-rules=''
                 )
-                  template(v-slot:append='')
-                    q-icon(name='assignment_ind')
             .col
               q-input(
                   outlined=''
@@ -26,8 +24,6 @@
                   label='Numero de seguridad social'
                   lazy-rules=''
                 )
-                  template(v-slot:append='')
-                    q-icon(name='contact_mail')
             .col
               q-input(
                   outlined=''
@@ -36,8 +32,6 @@
                   label='Unidad Médica'
                   lazy-rules=''
                 )
-                  template(v-slot:append='')
-                    q-icon(name='local_pharmacy')
           .row.q-gutter-md.q-mt-sm
             .col
               q-input(
@@ -47,8 +41,6 @@
                   label='Nombre del paciente'
                   lazy-rules=''
                 )
-                  template(v-slot:append='')
-                    q-icon(name='contacts')
             .col
               q-input(
                   outlined=''
@@ -57,8 +49,6 @@
                   label='Apellido paterno'
                   lazy-rules=''
                 )
-                  template(v-slot:append='')
-                    q-icon(name='contacts')
             .col
               q-input(
                   outlined=''
@@ -67,12 +57,21 @@
                   label='Apellido materno'
                   lazy-rules=''
                 )
-                  template(v-slot:append='')
-                    q-icon(name='contacts')
+          .row.q-gutter-md.q-mt-sm
+            .col
+              q-input(
+                  outlined=''
+                  dense=''
+                  v-model='form.diagnostico_cie10'
+                  label='Diagnostico'
+                  lazy-rules=''
+                )
+            .col
+            .col
           div.q-mt-md
             q-btn(
               :loading='searching'
-              color='primary'
+              color='accent'
               outline=''
               ref='searchPatient'
               @click='search'
@@ -84,7 +83,7 @@
                 | Buscando...
             q-btn.q-ml-sm(
               label='Limpiar'
-              color='secondary'
+              color='grey-6'
               flat=''
               @click='reset'
             )
@@ -106,7 +105,7 @@
             flat=''
             bordered=false
             :dense='$q.screen.lt.md'
-            :rows-per-page-options='[10, 25, 50, 100, 200]'
+            :rows-per-page-options='[10, 25, 50]'
             rows-per-page-label='Pacientes por página'
           )
             template(v-slot:body-cell='props')
@@ -194,7 +193,7 @@
                     p.no-margin.text-weight-bold {{carnet.cama ? carnet.cama : '-'}}
                 .col
                   q-item-section
-                    p.no-margin Fecha de la cita
+                    p.no-margin Fecha
                     p.no-margin.text-weight-bold {{carnet.fecha_prescripcion.$date ? carnet.fecha_prescripcion.$date : null | DateTime}}
               q-markup-table(flat='' bordered=false)
                 thead
@@ -222,6 +221,7 @@
 <script>
 import ApiMongoService from '@/boot/services/api.mongo.service'
 import { GETPATIENTS, CARNET } from '@/boot/endpoints/carnet'
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -232,7 +232,8 @@ export default {
         unidad_medica_atencion: '',
         nombre_paciente: '',
         ap_paterno_paciente: '',
-        ap_materno_paciente: ''
+        ap_materno_paciente: '',
+        diagnostico_cie10: ''
       },
       columns: [
         { label: 'NSS', field: 'nss', align: 'left' },
@@ -281,6 +282,11 @@ export default {
       this.paciente = null
       this.carnets = []
     }
+  },
+  computed: {
+    ...mapGetters([
+      'currentUser'
+    ])
   }
 }
 </script>
