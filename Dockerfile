@@ -4,5 +4,6 @@ COPY package*.json ./
 RUN npm install -g @quasar/cli
 COPY . .
 RUN npm i
+RUN npm rebuild node-sass
 EXPOSE 8080
-CMD [ "npm", "dev" ]
+CMD npm run dev
