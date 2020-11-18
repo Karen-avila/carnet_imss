@@ -16,6 +16,6 @@ EXPOSE 8080
 
 WORKDIR /app
 
-USER django
+USER quasar
 
 CMD npm run dev
