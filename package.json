@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "serve": "npm i && npm rebuild node-sass && quasar dev",
-    "start": "npm i && npm rebuild node-sass && quasar dev",
+    "start": "npm i",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
     "build": "npm i && quasar build"
