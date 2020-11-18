@@ -1,6 +1,6 @@
 FROM node:12.18.4-alpine3.9
 
-RUN useradd default
+RUN apk add default
 
 COPY package*.json .
 
