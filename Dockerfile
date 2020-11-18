@@ -1,7 +1,7 @@
 FROM node:12.18.4-alpine3.9
 RUN apk update
 
-RUN apk add default
+RUN adduser default
 
 COPY package*.json .
 
