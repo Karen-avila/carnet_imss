@@ -1,7 +1,10 @@
-# Dockerfile
-FROM nginx:1.17
-COPY ./nginx.conf /etc/nginx/nginx.conf
-WORKDIR /code
-COPY ./dist .
-EXPOSE 8080:8080
-CMD ["nginx", "-g", "daemon off;"]
+FROM docker-registry.default.svc:5000/openshift/ubi7
+WORKDIR /app
+COPY ./ /app/
+USER root
+#Copiar app a directorio raiz de nginx
+RUN cp -R /app/dist/spa /usr/share/nginx/html
+#Copiar conf de nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+ENTRYPOINT ["nginx","-g","daemon off;"]
