@@ -5,7 +5,7 @@
         span.text-h4 Carnet
         q-separator(color='grey-4' size='2px')
         q-separator.q-mb-md(color='secondary' size='.5rem' style='max-width:2.5rem')
-        q-form(v-if="this.currentUser.pacientes.length === 0")
+        q-form(v-if="currentUser.pacientes.length === 0")
           p INGRESA LOS DATOS DEL PACIENTE
           .row.q-gutter-md
             .col
@@ -267,7 +267,8 @@ export default {
         ap_paterno_paciente: '',
         ap_materno_paciente: '',
         diagnostico_cie10: '',
-        delegacion: ''
+        delegacion: '',
+        cve_idee: ''
       },
       columns: [
         { label: 'NSS', field: 'nss', align: 'left' },
@@ -288,8 +289,7 @@ export default {
     // this.getOptions('delegacion')
     // this.getOptions('diagnostico_cie10')
     if (this.currentUser.pacientes.length > 0) {
-      this.form.cve_idee = this.currentUser.pacientes[0].cveIdee
-      this.search()
+      this.multipleSearch(this.currentUser.pacientes)
     }
   },
   methods: {
@@ -304,12 +304,22 @@ export default {
         })
         .finally(() => { this.searching = false })
     },
+    multipleSearch (pacientes) {
+      pacientes.map((paciente) => {
+        ApiMongoService.get(GETPATIENTS, { cve_idee: paciente.cveIdee })
+          .then(response => response.json())
+          .then(data => {
+            if (data.length) {
+              this.pacientes.unshift(data[0])
+            }
+          })
+      })
+    },
     setPatient (patient) {
-      this.pacientes = {}
+      if (this.currentUser.pacientes.length === 0) this.pacientes = {}
       ApiMongoService.get(CARNET, patient)
         .then(response => response.json())
         .then((data) => {
-          console.log(data)
           this.paciente = data[0]
           this.carnets = data
         })
@@ -322,7 +332,7 @@ export default {
         })
     },
     reset () {
-      this.pacientes = []
+      if (this.currentUser.pacientes.length === 0) this.pacientes = {}
       this.paciente = null
       this.carnets = []
       this.noResults = false
