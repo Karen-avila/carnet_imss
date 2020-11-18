@@ -1,21 +1,15 @@
-FROM node:12.18.4-alpine3.9
-
-RUN useradd default
-
-COPY package*.json .
-
-RUN npm install -g @quasar/cli
-
-COPY . .
-
-RUN npm i
-RUN npm rebuild node-sass
-
-EXPOSE 8080
-
-RUN chown -R 771 ./
-RUN chown -R default:root ./
-
+# develop stage
+FROM node:13.14-alpine as develop-stage
 WORKDIR /app
-
-CMD npm run dev
+COPY package*.json ./
+RUN yarn global add @quasar/cli
+COPY . .
+# build stage
+FROM develop-stage as build-stage
+RUN yarn
+RUN quasar build
+# production stage
+FROM nginx:1.17.5-alpine as production-stage
+COPY --from=build-stage /app/dist/spa /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
