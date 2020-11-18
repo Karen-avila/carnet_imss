@@ -16,7 +16,7 @@
             q-form.q-gutter-md.q-mt-md(@submit='autenticacion(form)')
               q-input.q-my-md(
                 dense=''
-                label='CURP'
+                label='CURP ó matrícula'
                 outlined=''
                 v-model='form.username'
                 hint='18 dígitos'
@@ -53,8 +53,8 @@ export default {
   data () {
     return {
       form: {
-        username: process.env.DEBUGG ? 'PAZR610508MGTRRF07' : '',
-        password: process.env.DEBUGG ? 'PARRAS8kt9' : '',
+        username: '', // process.env.DEBUGG ? 'PAZR610508MGTRRF07' : '',
+        password: '', // process.env.DEBUGG ? 'PARRAS8kt9' : '',
         isPwd: true
       },
       invalidPassword: false,
@@ -74,11 +74,19 @@ export default {
   methods: {
     autenticacion (form) {
       this.$store.dispatch('logout')
-      this.$store
-        .dispatch('login', `username=${form.username}|APO&password=${form.password}|APO&grant_type=password&scope=read`)
-        .then((data) => {
-          this.$router.push({ name: 'carnet' })
-        })
+      if (this.form.username.length > 17) {
+        this.$store
+          .dispatch('login', `username=${form.username}|APO&password=${form.password}|APO&grant_type=password&scope=read`)
+          .then((data) => {
+            this.$router.push({ name: 'carnet' })
+          })
+      } else {
+        this.$store
+          .dispatch('login', `username=${form.username}|ECE&password=${form.password}|${form.password}&grant_type=password&scope=read`)
+          .then((data) => {
+            this.$router.push({ name: 'carnet' })
+          })
+      }
     }
   }
 }

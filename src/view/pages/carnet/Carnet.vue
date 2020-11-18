@@ -5,7 +5,7 @@
         span.text-h4 Carnet
         q-separator(color='grey-4' size='2px')
         q-separator.q-mb-md(color='secondary' size='.5rem' style='max-width:2.5rem')
-        q-form
+        q-form(v-if="currentUser.pacientes.length === 0")
           p INGRESA LOS DATOS DEL PACIENTE
           .row.q-gutter-md
             .col
@@ -165,7 +165,7 @@
               .col.text-left
                 span.text-weight-bold Fecha de nacimiento:
                 br
-                span {{paciente.fecha_nacimiento | DateTime}}
+                span {{paciente.fecha_nacimiento}}
               .col.text-left
                 span.text-weight-bold Edad:
                 br
@@ -221,7 +221,7 @@
                 .col
                   q-item-section
                     p.no-margin Fecha
-                    p.no-margin.text-weight-bold {{carnet.fecha_prescripcion ? carnet.fecha_prescripcion : null | DateTime}}
+                    p.no-margin.text-weight-bold {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}`}}
               q-markup-table(flat='' bordered=false)
                 thead
                   tr
@@ -320,6 +320,7 @@ export default {
       ApiMongoService.get(CARNET, patient)
         .then(response => response.json())
         .then((data) => {
+          console.log(data)
           this.paciente = data[0]
           this.carnets = data
         })

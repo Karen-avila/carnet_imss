@@ -59,6 +59,7 @@ const mutations = {
   },
   setUser (state, user) {
     state.isAuthenticated = true
+    if (!user.pacientes) user.pacientes = []
     state.user = user
     state.errors = {}
     JwtService.saveToken(state.user.access_token)
