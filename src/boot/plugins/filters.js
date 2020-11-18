@@ -3,5 +3,5 @@ import moment from 'moment'
 
 Vue.filter('DateTime', function (value) {
   if (!value) return '-'
-  return moment(value).format('LL')
+  return moment(value).format('LL', 'es')
 })

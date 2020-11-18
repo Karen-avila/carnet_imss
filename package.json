@@ -6,8 +6,8 @@
   "author": "@gcastellan0s",
   "private": true,
   "scripts": {
-    "serve": "npm i && quasar dev",
-    "start": "quasar dev",
+    "serve": "npm i && npm rebuild node-sass && quasar dev",
+    "start": "npm i && npm rebuild node-sass && quasar dev",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
     "build": "npm i && quasar build"
