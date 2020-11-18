@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "preinstall": "npm i -g @quasar/cli",
-    "start": "quasar dev",
+    "start": "quasar serve",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
     "build": "quasar build"
