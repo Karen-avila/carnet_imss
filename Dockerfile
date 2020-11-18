@@ -1,5 +1,6 @@
 FROM node:12.18.4-alpine3.9
 WORKDIR /app
+USER root
 COPY package*.json ./
 RUN npm install -g @quasar/cli
 COPY . .
