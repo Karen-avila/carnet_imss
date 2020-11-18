@@ -3,7 +3,7 @@ WORKDIR /app
 COPY ./ /app/
 USER root
 #Copiar app a directorio raiz de nginx
-RUN cp -R /app/dist/spa /usr/share/nginx/html
+COPY /app/dist/spa /usr/share/nginx/html
 #Copiar conf de nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
