@@ -1,0 +1,3 @@
+AUTHENDPOINT=https://msapop-autenticacion-uat.cloudapps.imss.gob.mx
+MONGOENDPOINT=https://msapop-consulta-apop-qa.cloudapps.imss.gob.mx
+DEBUGGING=True

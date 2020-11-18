@@ -5,5 +5,5 @@ RUN npm install -g @quasar/cli
 COPY . .
 RUN npm i
 RUN npm rebuild node-sass
-EXPOSE 8080
+EXPOSE 8080:8080
 CMD npm run dev
