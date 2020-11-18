@@ -1,6 +1,7 @@
 FROM node:12.18.4-alpine3.9
 RUN apk update
 ARG USER=default
+RUN apk add --update sudo
 ENV HOME /home/$USER
 RUN adduser -D $USER \
         && echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER \
