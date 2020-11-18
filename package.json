@@ -6,8 +6,8 @@
   "author": "@gcastellan0s",
   "private": true,
   "scripts": {
-    "preinstall": "npm i -g @quasar/cli",
-    "start": "quasar serve",
+    "start": "quasar dev",
+    "serve": "quasar dev",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
     "build": "quasar build"
