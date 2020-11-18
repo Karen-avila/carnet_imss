@@ -6,7 +6,7 @@
   "author": "@gcastellan0s",
   "private": true,
   "scripts": {
-    "dev": "quasar dev",
+    "start": "quasar dev",
     "build": "quasar build",
     "lint": "eslint --ext .js,.vue ./"
   },
