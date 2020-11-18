@@ -3,5 +3,6 @@ import moment from 'moment'
 
 Vue.filter('DateTime', function (value) {
   if (!value) return '-'
-  return moment(value).format('LL', 'es')
+  moment.locale('es')
+  return moment(value).format('l')
 })

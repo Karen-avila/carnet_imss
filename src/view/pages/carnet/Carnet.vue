@@ -32,6 +32,19 @@
                   label='Unidad Médica'
                   lazy-rules=''
                 )
+              // q-select(
+                  label='Unidad Médica'
+                  outlined=''
+                  dense=''
+                  v-model='form.unidad_medica_atencion'
+                  use-input
+                  hide-selected
+                  :value="form.unidad_medica_atencion"
+                )
+                template(v-slot:no-option)
+                  q-item
+                    q-item-section.text-grey
+                      | No hay resultados
           .row.q-gutter-md.q-mt-sm
             .col
               q-input(
@@ -67,6 +80,13 @@
                   lazy-rules=''
                 )
             .col
+              q-input(
+                  outlined=''
+                  dense=''
+                  v-model='form.cve_idee'
+                  label='CVEIDEE'
+                  lazy-rules=''
+                )
             .col
           div.q-mt-md
             q-btn(
@@ -94,9 +114,16 @@
             inline-actions=''
             rounded=''
             dense=''
-            v-if='!paciente'
+            v-if='!paciente && !noResults'
           )
             span {{pacientes.length ? `${pacientes.length} Pacientes encontrados` : 'Busca un paciente para ver los resultados'}}
+          q-banner.bg-negative.text-center.alert-negative.q-mb-md.text-white(
+            inline-actions=''
+            rounded=''
+            dense=''
+            v-if='noResults'
+          )
+            span.text-weight-bold No se encontraron pacientes relacionados
           q-table(
             v-if='pacientes.length'
             :data='pacientes'
@@ -138,7 +165,7 @@
               .col.text-left
                 span.text-weight-bold Fecha de nacimiento:
                 br
-                span {{paciente.fecha_nacimiento.$date | DateTime}}
+                span {{paciente.fecha_nacimiento | DateTime}}
               .col.text-left
                 span.text-weight-bold Edad:
                 br
@@ -194,7 +221,7 @@
                 .col
                   q-item-section
                     p.no-margin Fecha
-                    p.no-margin.text-weight-bold {{carnet.fecha_prescripcion.$date ? carnet.fecha_prescripcion.$date : null | DateTime}}
+                    p.no-margin.text-weight-bold {{carnet.fecha_prescripcion ? carnet.fecha_prescripcion : null | DateTime}}
               q-markup-table(flat='' bordered=false)
                 thead
                   tr
@@ -208,19 +235,25 @@
                     td.text-center {{prescription.consumo}} {{prescription.unidad_medida}}
                     td.text-center {{prescription.cantidad_bolos}}
                     td.text-center
-                      q-icon(
-                        :color='prescription.entregado === "ENTREGADO" ? "positive" : "negative"'
-                        :name='prescription.entregado === "ENTREGADO" ? "done" : "clear"'
-                      )
                       span(
-                        :color='prescription.entregado === "ENTREGADO" ? "" : "negative"'
-                      ) {{prescription.motivo}}
-
+                        v-if='prescription.entregado === "ENTREGADO"'
+                      ) {{prescription.entregado}}
+                      q-expansion-item(
+                        v-if='prescription.entregado !== "ENTREGADO"'
+                        dense=''
+                        dense-toggle=''
+                        label='NO ENTREGADO'
+                        header-class="text-negative"
+                      )
+                        q-card
+                          q-card-section
+                            | {{prescription.motivo}}
 </template>
 
 <script>
 import ApiMongoService from '@/boot/services/api.mongo.service'
-import { GETPATIENTS, CARNET } from '@/boot/endpoints/carnet'
+// eslint-disable-next-line no-unused-vars
+import { GETPATIENTS, CARNET, GETUNIDADMEDICA, GETDIAGNOSTICO, GETDELEGACION, GETOPTIONS } from '@/boot/endpoints/carnet'
 import { mapGetters } from 'vuex'
 export default {
   data () {
@@ -233,7 +266,8 @@ export default {
         nombre_paciente: '',
         ap_paterno_paciente: '',
         ap_materno_paciente: '',
-        diagnostico_cie10: ''
+        diagnostico_cie10: '',
+        delegacion: ''
       },
       columns: [
         { label: 'NSS', field: 'nss', align: 'left' },
@@ -245,7 +279,18 @@ export default {
       ],
       pacientes: [],
       paciente: null,
+      noResults: false,
       carnets: []
+    }
+  },
+  mounted () {
+    // this.getOptions('unidad_medica_atencion')
+    // this.getOptions('delegacion')
+    // this.getOptions('diagnostico_cie10')
+    console.log(this.currentUser)
+    if (this.currentUser.pacientes.length > 0) {
+      // this.form.cve_idee = this.currentUser.pacientes[0].cveIdee
+      this.search()
     }
   },
   methods: {
@@ -256,6 +301,7 @@ export default {
         .then(response => response.json())
         .then(data => {
           this.pacientes = data
+          if (this.pacientes.length < 1) this.noResults = true
         })
         .finally(() => { this.searching = false })
     },
@@ -264,23 +310,22 @@ export default {
       ApiMongoService.get(CARNET, patient)
         .then(response => response.json())
         .then((data) => {
-          console.log(data)
           this.paciente = data[0]
           this.carnets = data
         })
     },
+    getOptions (options) {
+      ApiMongoService.get(GETOPTIONS, { options: options })
+        .then(response => response.json())
+        .then((data) => {
+          this.stringOptions[options + 'StringOptions'] = data.map(item => item[options])
+        })
+    },
     reset () {
-      // this.form = {
-      //   curp: '',
-      //   nns: '',
-      //   unidad_medica_atencion: '',
-      //   nombre_paciente: '',
-      //   ap_paterno_paciente: '',
-      //   ap_materno_paciente: ''
-      // }
       this.pacientes = []
       this.paciente = null
       this.carnets = []
+      this.noResults = false
     }
   },
   computed: {

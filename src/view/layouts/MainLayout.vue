@@ -6,14 +6,14 @@
     </q-header>
     <q-page-container>
       <q-toolbar class="bg-grey-2 text-black q-px-xl">
-        <q-toolbar-title class="text-subtitle2" v-if="this.currentUser.access_token">
+        <q-toolbar-title class="text-subtitle2 text-right" v-if="this.currentUser.access_token">
+          {{currentUser.nombrePersonal}}
           <span v-if="currentUser.pacientes.length">
-            Bienvenido paciente:
+            [paciente]
           </span>
           <span v-else>
-            Bienvenido personal de la salud:
+            [personal de la salud ]
           </span>
-          {{currentUser.nombrePersonal}}
         </q-toolbar-title>
         <q-btn flat="" outline="" label="Cerrar sesion" color="secondary" @click="onLogout"></q-btn>
       </q-toolbar>

@@ -1,5 +1,9 @@
 <template>
   <q-layout view="hHh lpR fff">
+    <q-header elevated class="bg-primary">
+      <q-toolbar>
+      </q-toolbar>
+    </q-header>
     <q-page-container>
       <router-view />
     </q-page-container>
