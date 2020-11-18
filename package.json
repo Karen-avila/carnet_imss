@@ -7,6 +7,7 @@
   "private": true,
   "scripts": {
     "serve": "npm install -g @quasar/cli && npm i && npm rebuild node-sass && quasar dev",
+    "start": "npm install -g @quasar/cli && npm i && npm rebuild node-sass && quasar dev",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
     "build": "quasar build"
