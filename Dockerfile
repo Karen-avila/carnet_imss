@@ -5,4 +5,4 @@ RUN npm install -g @quasar/cli
 COPY . .
 RUN npm i
 EXPOSE 8080
-CMD [ "npm", "serve" ]
+CMD [ "npm", "dev" ]
