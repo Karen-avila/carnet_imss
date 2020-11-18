@@ -6,7 +6,7 @@
   "author": "@gcastellan0s",
   "private": true,
   "scripts": {
-    "start": "npx quasar serve",
+    "start": "quasar serve",
     "build": "quasar build",
     "lint": "eslint --ext .js,.vue ./"
   },
