@@ -5,7 +5,7 @@
         span.text-h4 Carnet
         q-separator(color='grey-4' size='2px')
         q-separator.q-mb-md(color='secondary' size='.5rem' style='max-width:2.5rem')
-        q-form(v-if="currentUser.pacientes.length === 0")
+        q-form
           p INGRESA LOS DATOS DEL PACIENTE
           .row.q-gutter-md
             .col
