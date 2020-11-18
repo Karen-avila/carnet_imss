@@ -5,7 +5,7 @@
         span.text-h4 Carnet
         q-separator(color='grey-4' size='2px')
         q-separator.q-mb-md(color='secondary' size='.5rem' style='max-width:2.5rem')
-        q-form
+        q-form(v-if="this.currentUser.pacientes.length === 0")
           p INGRESA LOS DATOS DEL PACIENTE
           .row.q-gutter-md
             .col
@@ -116,7 +116,7 @@
             dense=''
             v-if='!paciente && !noResults'
           )
-            span {{pacientes.length ? `${pacientes.length} Pacientes encontrados` : 'Busca un paciente para ver los resultados'}}
+            span.text-weight-bold {{pacientes.length ? `${pacientes.length} Paciente(s) encontrados` : 'Busca un paciente para ver los resultados'}}
           q-banner.bg-negative.text-center.alert-negative.q-mb-md.text-white(
             inline-actions=''
             rounded=''
@@ -287,9 +287,8 @@ export default {
     // this.getOptions('unidad_medica_atencion')
     // this.getOptions('delegacion')
     // this.getOptions('diagnostico_cie10')
-    console.log(this.currentUser)
     if (this.currentUser.pacientes.length > 0) {
-      // this.form.cve_idee = this.currentUser.pacientes[0].cveIdee
+      this.form.cve_idee = this.currentUser.pacientes[0].cveIdee
       this.search()
     }
   },
@@ -310,6 +309,7 @@ export default {
       ApiMongoService.get(CARNET, patient)
         .then(response => response.json())
         .then((data) => {
+          console.log(data)
           this.paciente = data[0]
           this.carnets = data
         })

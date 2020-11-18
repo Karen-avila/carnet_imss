@@ -53,8 +53,8 @@ export default {
   data () {
     return {
       form: {
-        username: 'PAZR610508MGTRRF07',
-        password: 'PARRAS8kt9',
+        username: process.env.DEBUGG ? 'PAZR610508MGTRRF07' : '',
+        password: process.env.DEBUGG ? 'PARRAS8kt9' : '',
         isPwd: true
       },
       invalidPassword: false,
