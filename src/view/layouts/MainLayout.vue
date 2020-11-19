@@ -8,11 +8,11 @@
       <q-toolbar class="bg-grey-2 text-black q-px-xl">
         <q-toolbar-title class="text-subtitle2 text-right" v-if="this.currentUser.access_token">
           {{currentUser.nombrePersonal}}
-          <span v-if="currentUser.pacientes.length">
-            [familiar]
+          <span class="text-caption text-grey" v-if="currentUser.pacientes.length">
+            - Familiar
           </span>
-          <span v-else>
-            [personal de la salud ]
+          <span class="text-caption text-grey" v-else>
+            - Personal de la salud
           </span>
         </q-toolbar-title>
         <q-btn flat="" outline="" label="Cerrar sesion" color="secondary" @click="onLogout"></q-btn>

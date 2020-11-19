@@ -1,30 +1,74 @@
 <template lang="pug">
-  div
-    .row.q-py-md.q-px-xl
-      .col(v-if="currentUser.pacientes")
-        span.text-h4 Carnet
-        q-separator(color='grey-4' size='2px')
-        q-separator.q-mb-md(color='secondary' size='.5rem' style='max-width:2.5rem')
-        q-form(v-if="currentUser.pacientes.length === 0")
-          p INGRESA LOS DATOS DEL PACIENTE
-          .row.q-gutter-md
-            .col
+  div.q-py-sm.q-px-xl
+    template(v-if="currentUser.pacientes")
+      span.text-h4 Carnet
+      q-separator(color='grey-4' size='2px')
+      q-separator.q-mb-md.q-mb-xl(color='secondary' size='.5rem' style='max-width:2.5rem')
+      q-form.q-col-gutter-y-sm(v-if="currentUser.pacientes.length === 0")
+        p INGRESA LOS DATOS DEL PACIENTE
+          .row.q-col-gutter-xs
+            .col-12.col-md
+              q-input(
+                outlined=''
+                dense=''
+                v-model='form.curp'
+                label='CURP'
+                lazy-rules=''
+                style="width:100%"
+              )
+            .col-12.col-md
+              q-input(
+                outlined=''
+                dense=''
+                v-model='form.nss'
+                label='Número de seguridad social'
+                lazy-rules=''
+                style="width:100%"
+              )
+            .col-12.col-md
+              q-select(
+                outlined=''
+                dense=''
+                v-model='form.diagnostico_cie10'
+                label='Diagnóstico'
+                use-input=''
+                hide-selected=''
+                fill-input=''
+                input-debounce='0'
+                :options='options.diagnostico_cie10'
+                @filter='filterFndiagnostico_cie10'
+              )
+                template(v-slot:no-option='')
+                  q-item
+                    q-item-section.text-grey
+                      | No hay coincidencias
+          .row.q-col-gutter-xs
+            .col-12.col-md
               q-input(
                   outlined=''
                   dense=''
-                  v-model='form.curp'
-                  label='CURP'
+                  v-model='form.nombre_paciente'
+                  label='Nombre del paciente'
                   lazy-rules=''
                 )
-            .col
+            .col-12.col-md
               q-input(
                   outlined=''
                   dense=''
-                  v-model='form.nss'
-                  label='Número de seguridad social'
+                  v-model='form.ap_paterno_paciente'
+                  label='Apellido paterno'
                   lazy-rules=''
                 )
-            .col
+            .col-12.col-md
+              q-input(
+                  outlined=''
+                  dense=''
+                  v-model='form.ap_materno_paciente'
+                  label='Apellido materno'
+                  lazy-rules=''
+                )
+          .row.q-col-gutter-xs
+            .col-12.col-md
               q-select(
                 outlined=''
                 dense=''
@@ -36,55 +80,13 @@
                 input-debounce='0'
                 :options='options.denominacion_unidad_atencion'
                 @filter='filterFndenominacion_unidad_atencion'
+                style="width:100%"
               )
                 template(v-slot:no-option='')
                   q-item
                     q-item-section.text-grey
                       | No hay coincidencias
-          .row.q-gutter-md.q-mt-xs
-            .col
-              q-input(
-                  outlined=''
-                  dense=''
-                  v-model='form.nombre_paciente'
-                  label='Nombre del paciente'
-                  lazy-rules=''
-                )
-            .col
-              q-input(
-                  outlined=''
-                  dense=''
-                  v-model='form.ap_paterno_paciente'
-                  label='Apellido paterno'
-                  lazy-rules=''
-                )
-            .col
-              q-input(
-                  outlined=''
-                  dense=''
-                  v-model='form.ap_materno_paciente'
-                  label='Apellido materno'
-                  lazy-rules=''
-                )
-          .row.q-gutter-md.q-mt-xs
-            .col
-              q-select(
-                  outlined=''
-                  dense=''
-                  v-model='form.diagnostico_cie10'
-                  label='Diagnóstico'
-                  use-input=''
-                  hide-selected=''
-                  fill-input=''
-                  input-debounce='0'
-                  :options='options.diagnostico_cie10'
-                  @filter='filterFndiagnostico_cie10'
-                )
-                  template(v-slot:no-option='')
-                    q-item
-                      q-item-section.text-grey
-                        | No hay coincidencias
-            .col
+            .col-12.col-md
               q-select(
                 outlined=''
                 dense=''
@@ -101,105 +103,103 @@
                   q-item
                     q-item-section.text-grey
                       | No hay coincidencias
-            .col
-          div.q-mt-lg
-            q-btn(
-              :loading='searching'
-              color='accent'
-              outline=''
-              ref='searchPatient'
-              @click='search'
-              style='min-width: 160px'
-            )
-              | {{pacientes.length === 0 ? "Buscar" : "Buscar"}}
-              template(v-slot:loading='')
-                q-spinner-hourglass.on-left
-                | Buscando...
-            q-btn.q-ml-sm(
-              label='Limpiar'
-              color='grey-6'
-              flat=''
-              @click='reset'
-            )
-    .row.q-px-xl.q-mb-xl
-      .col
-        template
-          q-banner.bg-warning.text-center.alert-banner.q-mb-md(
-            inline-actions=''
-            rounded=''
-            dense=''
-            v-if='!paciente && !noResults'
-          )
-            span.text-weight-bold {{pacientes.length ? `${pacientes.length} Paciente(s) encontrados` : 'Busca un paciente para ver los resultados'}}
-            template(v-if="pacientes.length")
-              br
-              span.text-caption Selecciona un registro para ver detalles
-          q-banner.bg-negative.text-center.alert-negative.q-mb-md.text-white(
-            inline-actions=''
-            rounded=''
-            dense=''
-            v-if='noResults'
-          )
-            span.text-weight-bold No se encontraron pacientes relacionados
-          q-table(
-            v-if='pacientes.length'
-            :data='pacientes'
-            :columns='columns'
-            row-key='name'
-            flat=''
-            bordered=true
-            :dense='$q.screen.lt.md'
-            :rows-per-page-options='[10, 25, 50]'
-            :pagination-label="paginationLabel"
-            rows-per-page-label='Pacientes por página'
-            separator='cell'
-          )
-            template(v-slot:body-cell='props')
-              q-td.cursor-pointer(:props='props' @click='setPatient(props.row)')
-                span(v-if="props.col.field === 'nombre_paciente'") {{props.value}} {{props.row.ap_paterno_paciente}} {{props.row.ap_materno_paciente}}
-                span(v-else-if="props.col.field === 'edad'") {{props.value}} años
-                span(v-else-if="props.col.field === 'actions'")
-                  q-icon(name='person_search' size='md', color='accent')
-                span(v-else) {{props.value}}
+            .col-12.col-md
+              div.text-right
+                q-btn(
+                  :loading='searching'
+                  color='accent'
+                  outline=''
+                  ref='searchPatient'
+                  @click='search'
+                  style='min-width: 160px'
+                )
+                  | {{pacientes.length === 0 ? "Buscar" : "Buscar"}}
+                  template(v-slot:loading='')
+                    q-spinner-hourglass.on-left
+                    | Buscando...
+                q-btn.q-ml-sm(
+                  label='Limpiar'
+                  color='grey-6'
+                  flat=''
+                  @click='reset'
+                )
+    template
+      q-banner.bg-warning.text-center.alert-banner.q-mb-md(
+        inline-actions=''
+        rounded=''
+        dense=''
+        v-if='!paciente && !noResults'
+      )
+        span.text-weight-bold {{pacientes.length ? `${pacientes.length} Paciente(s) encontrados` : 'Busca un paciente para ver los resultados'}}
+        template(v-if="pacientes.length")
+          br
+          span.text-caption Selecciona un registro para ver detalles
+      q-banner.bg-negative.text-center.alert-negative.q-mb-md.text-white(
+        inline-actions=''
+        rounded=''
+        dense=''
+        v-if='noResults'
+      )
+        span.text-weight-bold No se encontraron pacientes relacionados
+      q-table(
+        v-if='pacientes.length'
+        :data='pacientes'
+        :columns='columns'
+        row-key='name'
+        flat=''
+        bordered=true
+        :dense='$q.screen.lt.md'
+        :rows-per-page-options='[10, 25, 50]'
+        :pagination-label="paginationLabel"
+        rows-per-page-label='Pacientes por página'
+        separator='cell'
+      )
+        template(v-slot:body-cell='props')
+          q-td.cursor-pointer(:props='props' @click='setPatient(props.row)')
+            span(v-if="props.col.field === 'nombre_paciente'") {{props.value}} {{props.row.ap_paterno_paciente}} {{props.row.ap_materno_paciente}}
+            span(v-else-if="props.col.field === 'edad'") {{props.value}} años
+            span(v-else-if="props.col.field === 'actions'")
+              q-icon(name='person_search' size='md', color='accent')
+            span(v-else) {{props.value}}
         template(v-if="paciente")
           q-banner.text-center.alert-banner.alert-img-carnet.q-mb-md.q-py-lg.q-px-xl(
             inline-actions=''
             rounded=''
             dense=''
           )
-            .row
-              .col.text-left
+            .row.q-col-gutter-xs
+              .col-12.col-md.text-left
                 span.text-weight-bold Nombre:
                 br
                 span {{paciente.nombre_paciente}} {{paciente.ap_paterno_paciente}} {{paciente.ap_materno_paciente}}
-              .col.text-left
+              .col-12.col-md.text-left
                 span.text-weight-bold CURP:
                 br
                 span {{paciente.curp}}
-              .col.text-left
+              .col-12.col-md.text-left
                 span.text-weight-bold NSS:
                 br
                 span {{paciente.nss}}
-            .row.q-mt-md
-              .col.text-left
+            .row.q-col-gutter-xs
+              .col-12.col-md.text-left
                 span.text-weight-bold Fecha de nacimiento:
                 br
                 span {{paciente.fecha_nacimiento | DateTime}}
-              .col.text-left
+              .col-12.col-md.text-left
                 span.text-weight-bold Edad:
                 br
                 span {{paciente.edad}} años
-              .col.text-left
+              .col-12.col-md.text-left
                 span.text-weight-bold Peso:
                 br
                 span {{paciente.peso}} Kg
-            .row.q-mt-md
-              .col.text-left
+            .row.q-col-gutter-xs
+              .col-12.col-md.text-left
                 span.text-weight-bold Agregado médico:
                 br
                 span {{paciente.agregado_medico}}
-              .col.text-left
-              .col.text-left
+              .col-12.col-md.text-left
+              .col-12.col-md.text-left
           q-banner.text-center.no-padding.q-mb-md(
             inline-actions=''
             rounded=''
