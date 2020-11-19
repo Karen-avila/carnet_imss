@@ -28,14 +28,14 @@
               q-select(
                 outlined=''
                 dense=''
-                v-model='form.unidad_medica_atencion'
+                v-model='form.denominacion_unidad_atencion'
                 label='Unidad Médica'
                 use-input=''
                 hide-selected=''
                 fill-input=''
                 input-debounce='0'
-                :options='options.unidad_medica_atencion'
-                @filter='filterFnunidad_medica_atencion'
+                :options='options.denominacion_unidad_atencion'
+                @filter='filterFndenominacion_unidad_atencion'
               )
                 template(v-slot:no-option='')
                   q-item
@@ -102,13 +102,6 @@
                     q-item-section.text-grey
                       | No hay coincidencias
             .col
-              q-input(
-                  outlined=''
-                  dense=''
-                  v-model='form.cve_idee'
-                  label='CVEIDEE'
-                  lazy-rules=''
-                )
           div.q-mt-lg
             q-btn(
               :loading='searching'
@@ -154,11 +147,12 @@
             :columns='columns'
             row-key='name'
             flat=''
-            bordered=false
+            bordered=true
             :dense='$q.screen.lt.md'
             :rows-per-page-options='[10, 25, 50]'
             :pagination-label="paginationLabel"
             rows-per-page-label='Pacientes por página'
+            separator='cell'
           )
             template(v-slot:body-cell='props')
               q-td.cursor-pointer(:props='props' @click='setPatient(props.row)')
@@ -247,7 +241,11 @@
                   q-item-section
                     p.no-margin Fecha
                     p.no-margin.text-weight-bold {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}` | DateTime}}
-              q-markup-table(flat='' bordered=false)
+              q-markup-table(
+                flat=''
+                bordered=true
+                separator='cell'
+              )
                 thead.bg-warning
                   tr
                     th.text-center Genérico
@@ -262,8 +260,8 @@
                   )
                     td.text-center {{prescription.generico}}
                     td.text-center {{prescription.consumo}} {{prescription.unidad_medida}}
-                    td.text-center {{prescription.tipo}}
                     td.text-center {{prescription.cantidad_bolos}}
+                    td.text-center {{prescription.tipo}}
                     td.text-center
                       span(
                         v-if='prescription.entregado === "ENTREGADO"'
@@ -293,7 +291,7 @@ export default {
       form: {
         curp: '',
         nss: '',
-        unidad_medica_atencion: '',
+        denominacion_unidad_atencion: '',
         nombre_paciente: '',
         ap_paterno_paciente: '',
         ap_materno_paciente: '',
@@ -306,7 +304,7 @@ export default {
         { label: 'CURP', field: 'curp', align: 'left' },
         { label: 'Nombre', field: 'nombre_paciente', align: 'left' },
         { label: 'Edad', field: 'edad', align: 'left' },
-        { label: 'Unidad Médica', field: 'unidad_medica_atencion', align: 'left' },
+        { label: 'Unidad Médica', field: 'denominacion_unidad_atencion', align: 'left' },
         { label: 'Diagnóstico', field: 'diagnostico_cie10', align: 'left' },
         { label: '', field: 'actions', align: 'left' }
       ],
@@ -316,7 +314,7 @@ export default {
       carnets: [],
       options: {
         diagnostico_cie10: [],
-        unidad_medica_atencion: [],
+        denominacion_unidad_atencion: [],
         delegacion: []
       }
     }
@@ -328,8 +326,8 @@ export default {
     this.getOptions('diagnostico_cie10', '').then(data => {
       this.options.diagnostico_cie10 = data
     })
-    this.getOptions('unidad_medica_atencion', '').then(data => {
-      this.options.unidad_medica_atencion = data
+    this.getOptions('denominacion_unidad_atencion', '').then(data => {
+      this.options.denominacion_unidad_atencion = data
     })
     this.getOptions('delegacion', '').then(data => {
       this.options.delegacion = data
@@ -389,10 +387,10 @@ export default {
         })
       })
     },
-    filterFnunidad_medica_atencion (val, update, abort) {
+    filterFndenominacion_unidad_atencion (val, update, abort) {
       update(() => {
-        this.getOptions('unidad_medica_atencion', val.toLowerCase()).then(data => {
-          this.options.unidad_medica_atencion = data
+        this.getOptions('denominacion_unidad_atencion', val.toLowerCase()).then(data => {
+          this.options.denominacion_unidad_atencion = data
         })
       })
     },

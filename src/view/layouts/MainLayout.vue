@@ -9,7 +9,7 @@
         <q-toolbar-title class="text-subtitle2 text-right" v-if="this.currentUser.access_token">
           {{currentUser.nombrePersonal}}
           <span v-if="currentUser.pacientes.length">
-            [paciente]
+            [familiar]
           </span>
           <span v-else>
             [personal de la salud ]
