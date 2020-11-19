@@ -104,7 +104,7 @@
                     q-item-section.text-grey
                       | No hay coincidencias
             .col-12.col-md
-              div.text-right
+              div.q-mt-md.text-right
                 q-btn(
                   :loading='searching'
                   color='accent'
@@ -228,7 +228,7 @@
               .col
                 q-item-section
                   p.no-margin Unidad de atención
-                  p.no-margin.text-weight-bold {{carnet.unidad_medica_atencion ? carnet.unidad_medica_atencion : '-'}}
+                  p.no-margin.text-weight-bold {{carnet.denominacion_unidad_atencion ? carnet.denominacion_unidad_atencion : '-'}}
               .col
                 q-item-section
                   p.no-margin Médico
@@ -264,10 +264,11 @@
                   td.text-center {{prescription.tipo}}
                   td.text-center
                     span(
-                      v-if='prescription.entregado === "ENTREGADO"'
+                      :class='{ "text-negative": prescription.entregado !== "ENTREGADO" }'
+                      v-if='!prescription.motivo'
                     ) {{prescription.entregado}}
                     q-expansion-item(
-                      v-if='prescription.entregado !== "ENTREGADO"'
+                      v-else
                       dense=''
                       dense-toggle=''
                       label='NO ENTREGADO'
@@ -335,6 +336,7 @@ export default {
   },
   methods: {
     search () {
+      this.noResults = false
       this.paciente = null
       this.searching = true
       ApiMongoService.get(GETPATIENTS, this.form)
