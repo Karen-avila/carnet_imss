@@ -1,6 +1,6 @@
 <template lang="pug">
-  .row.q-pa-xl.bg-login(style="min-height:83vh")
-    .col
+  .row.q-pa-xl(style="min-height:100vh")
+    .col.bg-login
       h5.text-secondary.text-weight-bold Oncología Pediátrica
       h4.text-primary “La detección temprana del cáncer puede salvar vidas”
     .col
@@ -72,6 +72,8 @@ export default {
       console.log(process.env.AUTHENDPOINT)
       console.log(process.env.MONGOENDPOINT)
       console.log(process.env.DEBUGG)
+      this.form.username = '00110011'
+      this.form.password = '00110011'
     } else console.log('PRODUCTION')
   },
   methods: {

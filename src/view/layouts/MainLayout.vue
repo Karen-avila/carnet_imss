@@ -1,9 +1,5 @@
 <template>
   <q-layout view="hHh lpR fff">
-    <q-header elevated class="bg-primary">
-      <q-toolbar>
-      </q-toolbar>
-    </q-header>
     <q-page-container>
       <q-toolbar class="bg-grey-2 text-black q-px-xl">
         <q-toolbar-title class="text-subtitle2 text-right" v-if="this.currentUser.access_token">
@@ -19,10 +15,6 @@
       </q-toolbar>
       <router-view />
     </q-page-container>
-    <q-footer elevated class="bg-primary" style="min-height: 6rem">
-      <q-toolbar>
-      </q-toolbar>
-    </q-footer>
   </q-layout>
 </template>
 

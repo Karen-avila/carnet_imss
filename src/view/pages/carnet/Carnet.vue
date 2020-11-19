@@ -6,7 +6,7 @@
       q-separator.q-mb-md.q-mb-xl(color='secondary' size='.5rem' style='max-width:2.5rem')
       q-form.q-col-gutter-y-sm(v-if="currentUser.pacientes.length === 0")
         p INGRESA LOS DATOS DEL PACIENTE
-          .row.q-col-gutter-xs
+          .row.q-col-gutter-sm
             .col-12.col-md
               q-input(
                 outlined=''
@@ -42,7 +42,7 @@
                   q-item
                     q-item-section.text-grey
                       | No hay coincidencias
-          .row.q-col-gutter-xs
+          .row.q-col-gutter-sm
             .col-12.col-md
               q-input(
                   outlined=''
@@ -67,7 +67,7 @@
                   label='Apellido materno'
                   lazy-rules=''
                 )
-          .row.q-col-gutter-xs
+          .row.q-col-gutter-sm
             .col-12.col-md
               q-select(
                 outlined=''
@@ -248,6 +248,7 @@
             )
               thead.bg-warning
                 tr
+                  th.text-center ID Preescripción
                   th.text-center Genérico
                   th.text-center Consumo
                   th.text-center Cantidad
@@ -258,6 +259,7 @@
                   v-for='(prescription, p) in carnet.carnet', :key='p'
                   v-if='prescription.tipo !== "Instrumental Médico"'
                 )
+                  td.text-center {{prescription.id_prescripcion}}
                   td.text-center {{prescription.generico}}
                   td.text-center {{prescription.consumo}} {{prescription.unidad_medida}}
                   td.text-center {{prescription.cantidad_bolos}}
@@ -366,8 +368,8 @@ export default {
           this.paciente = data[0]
           this.carnets = data
           this.carnets.sort((a, b) => {
-            a = moment(a.fecha_prescripcion, 'DD-MM-YYYY hh:mm')
-            b = moment(b.fecha_prescripcion, 'DD-MM-YYYY hh:mm')
+            a = moment(a.fecha_prescripcion, 'YYYY-MM-DD hh:mm')
+            b = moment(b.fecha_prescripcion, 'YYYY-MM-DD hh:mm')
             if (a > b) return -1
             if (a < b) return 1
             else return 0
