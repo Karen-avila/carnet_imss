@@ -25,13 +25,22 @@
                   lazy-rules=''
                 )
             .col
-              q-input(
-                  outlined=''
-                  dense=''
-                  v-model='form.unidad_medica_atencion'
-                  label='Unidad Médica'
-                  lazy-rules=''
-                )
+              q-select(
+                outlined=''
+                dense=''
+                v-model='form.unidad_medica_atencion'
+                label='Unidad Médica'
+                use-input=''
+                hide-selected=''
+                fill-input=''
+                input-debounce='0'
+                :options='options.unidad_medica_atencion'
+                @filter='filterFnunidad_medica_atencion'
+              )
+                template(v-slot:no-option='')
+                  q-item
+                    q-item-section.text-grey
+                      | No hay coincidencias
           .row.q-gutter-md.q-mt-xs
             .col
               q-input(
@@ -59,21 +68,39 @@
                 )
           .row.q-gutter-md.q-mt-xs
             .col
-              q-input(
+              q-select(
                   outlined=''
                   dense=''
                   v-model='form.diagnostico_cie10'
                   label='Diagnóstico'
-                  lazy-rules=''
+                  use-input=''
+                  hide-selected=''
+                  fill-input=''
+                  input-debounce='0'
+                  :options='options.diagnostico_cie10'
+                  @filter='filterFndiagnostico_cie10'
                 )
+                  template(v-slot:no-option='')
+                    q-item
+                      q-item-section.text-grey
+                        | No hay coincidencias
             .col
-              q-input(
-                  outlined=''
-                  dense=''
-                  v-model='form.delegación'
-                  label='Delegación'
-                  lazy-rules=''
-                )
+              q-select(
+                outlined=''
+                dense=''
+                v-model='form.delegacion'
+                label='Delegación'
+                use-input=''
+                hide-selected=''
+                fill-input=''
+                input-debounce='0'
+                :options='options.delegacion'
+                @filter='filterFndelegacion'
+              )
+                template(v-slot:no-option='')
+                  q-item
+                    q-item-section.text-grey
+                      | No hay coincidencias
             .col
               q-input(
                   outlined=''
@@ -91,7 +118,7 @@
               @click='search'
               style='min-width: 160px'
             )
-              | {{pacientes.length === 0 ? "Buscar paciente" : "Buscar otro paciente"}}
+              | {{pacientes.length === 0 ? "Buscar" : "Buscar"}}
               template(v-slot:loading='')
                 q-spinner-hourglass.on-left
                 | Buscando...
@@ -221,13 +248,13 @@
                     p.no-margin Fecha
                     p.no-margin.text-weight-bold {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}` | DateTime}}
               q-markup-table(flat='' bordered=false)
-                thead
+                thead.bg-warning
                   tr
                     th.text-center Genérico
                     th.text-center Consumo
                     th.text-center Cantidad
                     th.text-center Tipo
-                    th.text-center Status
+                    th.text-center Estatus
                 tbody
                   tr(
                     v-for='(prescription, p) in carnet.carnet', :key='p'
@@ -286,16 +313,27 @@ export default {
       pacientes: [],
       paciente: null,
       noResults: false,
-      carnets: []
+      carnets: [],
+      options: {
+        diagnostico_cie10: [],
+        unidad_medica_atencion: [],
+        delegacion: []
+      }
     }
   },
   mounted () {
-    // this.getOptions('unidad_medica_atencion')
-    // this.getOptions('delegacion')
-    // this.getOptions('diagnostico_cie10')
     if (this.currentUser.pacientes.length > 0) {
       this.multipleSearch(this.currentUser.pacientes)
     }
+    this.getOptions('diagnostico_cie10', '').then(data => {
+      this.options.diagnostico_cie10 = data
+    })
+    this.getOptions('unidad_medica_atencion', '').then(data => {
+      this.options.unidad_medica_atencion = data
+    })
+    this.getOptions('delegacion', '').then(data => {
+      this.options.delegacion = data
+    })
   },
   methods: {
     search () {
@@ -328,24 +366,42 @@ export default {
           this.paciente = data[0]
           this.carnets = data
           this.carnets.sort((a, b) => {
-            a = moment(a, 'DD-MM-YYYY hh:mm').format()
-            b = moment(a, 'DD-MM-YYYY hh:mm').format()
-            if (a > b) {
-              return 1
-            }
-            if (a < b) {
-              return -1
-            }
-            return 0
+            a = moment(a.fecha_prescripcion, 'DD-MM-YYYY hh:mm')
+            b = moment(b.fecha_prescripcion, 'DD-MM-YYYY hh:mm')
+            if (a > b) return -1
+            if (a < b) return 1
+            else return 0
           })
         })
     },
-    getOptions (options) {
-      ApiMongoService.get(GETOPTIONS, { options: options })
+    getOptions (key, value) {
+      return ApiMongoService.get(GETOPTIONS, { key: key, value: value })
         .then(response => response.json())
         .then((data) => {
-          this.stringOptions[options + 'StringOptions'] = data.map(item => item[options])
+          data = data.map(item => item._id[key])
+          return data
         })
+    },
+    filterFndiagnostico_cie10 (val, update, abort) {
+      update(() => {
+        this.getOptions('diagnostico_cie10', val.toLowerCase()).then(data => {
+          this.options.diagnostico_cie10 = data
+        })
+      })
+    },
+    filterFnunidad_medica_atencion (val, update, abort) {
+      update(() => {
+        this.getOptions('unidad_medica_atencion', val.toLowerCase()).then(data => {
+          this.options.unidad_medica_atencion = data
+        })
+      })
+    },
+    filterFndelegacion (val, update, abort) {
+      update(() => {
+        this.getOptions('delegacion', val.toLowerCase()).then(data => {
+          this.options.delegacion = data
+        })
+      })
     },
     reset () {
       if (this.currentUser.pacientes.length === 0) {
