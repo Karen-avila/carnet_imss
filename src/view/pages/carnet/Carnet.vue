@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     .row.q-py-md.q-px-xl
-      .col
+      .col(v-if="currentUser.pacientes")
         span.text-h4 Carnet
         q-separator(color='grey-4' size='2px')
         q-separator.q-mb-md(color='secondary' size='.5rem' style='max-width:2.5rem')
@@ -21,7 +21,7 @@
                   outlined=''
                   dense=''
                   v-model='form.nss'
-                  label='Numero de seguridad social'
+                  label='Número de seguridad social'
                   lazy-rules=''
                 )
             .col
@@ -32,20 +32,7 @@
                   label='Unidad Médica'
                   lazy-rules=''
                 )
-              // q-select(
-                  label='Unidad Médica'
-                  outlined=''
-                  dense=''
-                  v-model='form.unidad_medica_atencion'
-                  use-input
-                  hide-selected
-                  :value="form.unidad_medica_atencion"
-                )
-                template(v-slot:no-option)
-                  q-item
-                    q-item-section.text-grey
-                      | No hay resultados
-          .row.q-gutter-md.q-mt-sm
+          .row.q-gutter-md.q-mt-xs
             .col
               q-input(
                   outlined=''
@@ -70,13 +57,21 @@
                   label='Apellido materno'
                   lazy-rules=''
                 )
-          .row.q-gutter-md.q-mt-sm
+          .row.q-gutter-md.q-mt-xs
             .col
               q-input(
                   outlined=''
                   dense=''
                   v-model='form.diagnostico_cie10'
-                  label='Diagnostico'
+                  label='Diagnóstico'
+                  lazy-rules=''
+                )
+            .col
+              q-input(
+                  outlined=''
+                  dense=''
+                  v-model='form.delegación'
+                  label='Delegación'
                   lazy-rules=''
                 )
             .col
@@ -87,8 +82,7 @@
                   label='CVEIDEE'
                   lazy-rules=''
                 )
-            .col
-          div.q-mt-md
+          div.q-mt-lg
             q-btn(
               :loading='searching'
               color='accent'
@@ -117,6 +111,9 @@
             v-if='!paciente && !noResults'
           )
             span.text-weight-bold {{pacientes.length ? `${pacientes.length} Paciente(s) encontrados` : 'Busca un paciente para ver los resultados'}}
+            template(v-if="pacientes.length")
+              br
+              span.text-caption Selecciona un registro para ver detalles
           q-banner.bg-negative.text-center.alert-negative.q-mb-md.text-white(
             inline-actions=''
             rounded=''
@@ -133,6 +130,7 @@
             bordered=false
             :dense='$q.screen.lt.md'
             :rows-per-page-options='[10, 25, 50]'
+            :pagination-label="paginationLabel"
             rows-per-page-label='Pacientes por página'
           )
             template(v-slot:body-cell='props')
@@ -252,7 +250,7 @@
                       )
                         q-card
                           q-card-section
-                            | {{prescription.motivo}}
+                            | {{prescription.motivo ? prescription.motivo : "No hay motivo capturado"}}
 </template>
 
 <script>
@@ -283,7 +281,7 @@ export default {
         { label: 'Edad', field: 'edad', align: 'left' },
         { label: 'Unidad Médica', field: 'unidad_medica_atencion', align: 'left' },
         { label: 'Diagnóstico', field: 'diagnostico_cie10', align: 'left' },
-        { label: 'Acciones', field: 'actions', align: 'left' }
+        { label: '', field: 'actions', align: 'left' }
       ],
       pacientes: [],
       paciente: null,
@@ -350,10 +348,26 @@ export default {
         })
     },
     reset () {
-      if (this.currentUser.pacientes.length === 0) this.pacientes = {}
+      if (this.currentUser.pacientes.length === 0) {
+        this.pacientes = {}
+        this.form = {
+          curp: '',
+          nss: '',
+          unidad_medica_atencion: '',
+          nombre_paciente: '',
+          ap_paterno_paciente: '',
+          ap_materno_paciente: '',
+          diagnostico_cie10: '',
+          delegacion: '',
+          cve_idee: ''
+        }
+      }
       this.paciente = null
       this.carnets = []
       this.noResults = false
+    },
+    paginationLabel (firstRowIndex, endRowIndex, totalRowsNumber) {
+      return `${firstRowIndex} a ${endRowIndex} de ${totalRowsNumber} pacientes`
     }
   },
   computed: {

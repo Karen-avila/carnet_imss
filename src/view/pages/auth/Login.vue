@@ -34,42 +34,45 @@
                 template(v-slot:append='')
                   q-icon.cursor-pointer(:name="form.isPwd ? 'visibility_off' : 'visibility'" @click='form.isPwd = !form.isPwd')
               div.q-mt-xl
-                q-btn.q-mx-auto(
-                  type='submit'
+                q-btn(
                   :loading='authenting'
+                  type='submit'
                   color='accent'
                   outline=''
                   style='min-width: 160px'
                 )
                   | Acceder
                   template(v-slot:loading='')
-                    q-spinner-ios.on-left
-                    | Verficiando
+                    q-spinner.on-left
+                    | Verificando...
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   data () {
     return {
       form: {
-        username: '', // process.env.DEBUGG ? 'PAZR610508MGTRRF07' : '',
-        password: '', // process.env.DEBUGG ? 'PARRAS8kt9' : '',
+        username: process.env.DEBUGG ? '00110011' : '',
+        password: process.env.DEBUGG ? '00110011' : '',
         isPwd: true
-      },
-      invalidPassword: false,
-      authenting: false
+      }
     }
   },
   computed: {
     ...mapState({
       errors: state => state.auth.errors
-    })
+    }),
+    ...mapGetters([
+      'authenting'
+    ])
   },
   mounted () {
-    console.log(process.env.AUTHENDPOINT)
-    console.log(process.env.MONGOENDPOINT)
-    console.log(process.env.DEBUGG)
+    if (process.env.DEBUGG) {
+      console.log(process.env.AUTHENDPOINT)
+      console.log(process.env.MONGOENDPOINT)
+      console.log(process.env.DEBUGG)
+    } else console.log('PRODUCTION')
   },
   methods: {
     autenticacion (form) {
