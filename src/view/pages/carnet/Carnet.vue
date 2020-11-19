@@ -161,121 +161,121 @@
             span(v-else-if="props.col.field === 'actions'")
               q-icon(name='person_search' size='md', color='accent')
             span(v-else) {{props.value}}
-        template(v-if="paciente")
-          q-banner.text-center.alert-banner.alert-img-carnet.q-mb-md.q-py-lg.q-px-xl(
-            inline-actions=''
-            rounded=''
-            dense=''
+      template(v-if="paciente")
+        q-banner.text-center.alert-banner.alert-img-carnet.q-mb-md.q-py-lg.q-px-xl(
+          inline-actions=''
+          rounded=''
+          dense=''
+        )
+          .row.q-col-gutter-xs
+            .col-12.col-md.text-left
+              span.text-weight-bold Nombre:
+              br
+              span {{paciente.nombre_paciente}} {{paciente.ap_paterno_paciente}} {{paciente.ap_materno_paciente}}
+            .col-12.col-md.text-left
+              span.text-weight-bold CURP:
+              br
+              span {{paciente.curp}}
+            .col-12.col-md.text-left
+              span.text-weight-bold NSS:
+              br
+              span {{paciente.nss}}
+          .row.q-col-gutter-xs
+            .col-12.col-md.text-left
+              span.text-weight-bold Fecha de nacimiento:
+              br
+              span {{paciente.fecha_nacimiento | DateTime}}
+            .col-12.col-md.text-left
+              span.text-weight-bold Edad:
+              br
+              span {{paciente.edad}} años
+            .col-12.col-md.text-left
+              span.text-weight-bold Peso:
+              br
+              span {{paciente.peso}} Kg
+          .row.q-col-gutter-xs
+            .col-12.col-md.text-left
+              span.text-weight-bold Agregado médico:
+              br
+              span {{paciente.agregado_medico}}
+            .col-12.col-md.text-left
+            .col-12.col-md.text-left
+        q-banner.text-center.no-padding.q-mb-md(
+          inline-actions=''
+          rounded=''
+          dense=''
+        )
+          .row.bg-grey-2.q-py-sm
+            .col
+              span.text-weight-bold.text-center DIAGNÓSTICO
+            .col
+              span.text-weight-bold.text-center INFORMACIÓN
+          .row.bg-grey-4.q-py-sm
+            .col
+              span.text-center {{paciente.diagnostico_cie10}}
+            .col
+              span.text-center Tipo mezcla: {{paciente.tipo_mezcla}}
+        q-list.q-mb-md(
+          bordered=''
+          v-for='(carnet, i) in carnets'
+          :key='i'
+        )
+          q-expansion-item.bg-grey-2(
+            group='somegroup'
+            icon='explore'
           )
-            .row.q-col-gutter-xs
-              .col-12.col-md.text-left
-                span.text-weight-bold Nombre:
-                br
-                span {{paciente.nombre_paciente}} {{paciente.ap_paterno_paciente}} {{paciente.ap_materno_paciente}}
-              .col-12.col-md.text-left
-                span.text-weight-bold CURP:
-                br
-                span {{paciente.curp}}
-              .col-12.col-md.text-left
-                span.text-weight-bold NSS:
-                br
-                span {{paciente.nss}}
-            .row.q-col-gutter-xs
-              .col-12.col-md.text-left
-                span.text-weight-bold Fecha de nacimiento:
-                br
-                span {{paciente.fecha_nacimiento | DateTime}}
-              .col-12.col-md.text-left
-                span.text-weight-bold Edad:
-                br
-                span {{paciente.edad}} años
-              .col-12.col-md.text-left
-                span.text-weight-bold Peso:
-                br
-                span {{paciente.peso}} Kg
-            .row.q-col-gutter-xs
-              .col-12.col-md.text-left
-                span.text-weight-bold Agregado médico:
-                br
-                span {{paciente.agregado_medico}}
-              .col-12.col-md.text-left
-              .col-12.col-md.text-left
-          q-banner.text-center.no-padding.q-mb-md(
-            inline-actions=''
-            rounded=''
-            dense=''
-          )
-            .row.bg-grey-2.q-py-sm
+            template(v-slot:header='')
               .col
-                span.text-weight-bold.text-center DIAGNÓSTICO
+                q-item-section
+                  p.no-margin Unidad de atención
+                  p.no-margin.text-weight-bold {{carnet.unidad_medica_atencion ? carnet.unidad_medica_atencion : '-'}}
               .col
-                span.text-weight-bold.text-center INFORMACIÓN
-            .row.bg-grey-4.q-py-sm
+                q-item-section
+                  p.no-margin Médico
+                  p.no-margin.text-weight-bold {{carnet.medico ? carnet.medico : '-'}}
               .col
-                span.text-center {{paciente.diagnostico_cie10}}
+                q-item-section
+                  p.no-margin Cama
+                  p.no-margin.text-weight-bold {{carnet.cama && carnet.cama != 0 ? carnet.cama : '-'}}
               .col
-                span.text-center Tipo mezcla: {{paciente.tipo_mezcla}}
-          q-list.q-mb-md(
-            bordered=''
-            v-for='(carnet, i) in carnets'
-            :key='i'
-          )
-            q-expansion-item.bg-grey-2(
-              group='somegroup'
-              icon='explore'
+                q-item-section
+                  p.no-margin Fecha
+                  p.no-margin.text-weight-bold {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}` | DateTime}}
+            q-markup-table(
+              flat=''
+              bordered=true
+              separator='cell'
             )
-              template(v-slot:header='')
-                .col
-                  q-item-section
-                    p.no-margin Unidad de atención
-                    p.no-margin.text-weight-bold {{carnet.unidad_medica_atencion ? carnet.unidad_medica_atencion : '-'}}
-                .col
-                  q-item-section
-                    p.no-margin Médico
-                    p.no-margin.text-weight-bold {{carnet.medico ? carnet.medico : '-'}}
-                .col
-                  q-item-section
-                    p.no-margin Cama
-                    p.no-margin.text-weight-bold {{carnet.cama && carnet.cama != 0 ? carnet.cama : '-'}}
-                .col
-                  q-item-section
-                    p.no-margin Fecha
-                    p.no-margin.text-weight-bold {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}` | DateTime}}
-              q-markup-table(
-                flat=''
-                bordered=true
-                separator='cell'
-              )
-                thead.bg-warning
-                  tr
-                    th.text-center Genérico
-                    th.text-center Consumo
-                    th.text-center Cantidad
-                    th.text-center Tipo
-                    th.text-center Estatus
-                tbody
-                  tr(
-                    v-for='(prescription, p) in carnet.carnet', :key='p'
-                    v-if='prescription.tipo !== "Instrumental Médico"'
-                  )
-                    td.text-center {{prescription.generico}}
-                    td.text-center {{prescription.consumo}} {{prescription.unidad_medida}}
-                    td.text-center {{prescription.cantidad_bolos}}
-                    td.text-center {{prescription.tipo}}
-                    td.text-center
-                      span(
-                        v-if='prescription.entregado === "ENTREGADO"'
-                      ) {{prescription.entregado}}
-                      q-expansion-item(
-                        v-if='prescription.entregado !== "ENTREGADO"'
-                        dense=''
-                        dense-toggle=''
-                        label='NO ENTREGADO'
-                        header-class="text-negative"
-                      )
-                        q-card
-                          q-card-section
-                            | {{prescription.motivo ? prescription.motivo : "No hay motivo capturado"}}
+              thead.bg-warning
+                tr
+                  th.text-center Genérico
+                  th.text-center Consumo
+                  th.text-center Cantidad
+                  th.text-center Tipo
+                  th.text-center Estatus
+              tbody
+                tr(
+                  v-for='(prescription, p) in carnet.carnet', :key='p'
+                  v-if='prescription.tipo !== "Instrumental Médico"'
+                )
+                  td.text-center {{prescription.generico}}
+                  td.text-center {{prescription.consumo}} {{prescription.unidad_medida}}
+                  td.text-center {{prescription.cantidad_bolos}}
+                  td.text-center {{prescription.tipo}}
+                  td.text-center
+                    span(
+                      v-if='prescription.entregado === "ENTREGADO"'
+                    ) {{prescription.entregado}}
+                    q-expansion-item(
+                      v-if='prescription.entregado !== "ENTREGADO"'
+                      dense=''
+                      dense-toggle=''
+                      label='NO ENTREGADO'
+                      header-class="text-negative"
+                    )
+                      q-card
+                        q-card-section
+                          | {{prescription.motivo ? prescription.motivo : "No hay motivo capturado"}}
 </template>
 
 <script>
