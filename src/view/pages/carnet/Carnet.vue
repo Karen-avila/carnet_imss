@@ -165,7 +165,7 @@
               .col.text-left
                 span.text-weight-bold Fecha de nacimiento:
                 br
-                span {{paciente.fecha_nacimiento}}
+                span {{paciente.fecha_nacimiento | DateTime}}
               .col.text-left
                 span.text-weight-bold Edad:
                 br
@@ -188,7 +188,7 @@
           )
             .row.bg-grey-2.q-py-sm
               .col
-                span.text-weight-bold.text-center DIAGNOSTICO
+                span.text-weight-bold.text-center DIAGNÓSTICO
               .col
                 span.text-weight-bold.text-center INFORMACIÓN
             .row.bg-grey-4.q-py-sm
@@ -217,22 +217,27 @@
                 .col
                   q-item-section
                     p.no-margin Cama
-                    p.no-margin.text-weight-bold {{carnet.cama ? carnet.cama : '-'}}
+                    p.no-margin.text-weight-bold {{carnet.cama && carnet.cama != 0 ? carnet.cama : '-'}}
                 .col
                   q-item-section
                     p.no-margin Fecha
-                    p.no-margin.text-weight-bold {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}`}}
+                    p.no-margin.text-weight-bold {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}` | DateTime}}
               q-markup-table(flat='' bordered=false)
                 thead
                   tr
                     th.text-center Genérico
                     th.text-center Consumo
                     th.text-center Cantidad
-                    th.text-center Entregado
+                    th.text-center Tipo
+                    th.text-center Status
                 tbody
-                  tr(v-for='(prescription, p) in carnet.carnet', :key='p')
+                  tr(
+                    v-for='(prescription, p) in carnet.carnet', :key='p'
+                    v-if='prescription.tipo !== "Instrumental Médico"'
+                  )
                     td.text-center {{prescription.generico}}
                     td.text-center {{prescription.consumo}} {{prescription.unidad_medida}}
+                    td.text-center {{prescription.tipo}}
                     td.text-center {{prescription.cantidad_bolos}}
                     td.text-center
                       span(
@@ -255,6 +260,7 @@ import ApiMongoService from '@/boot/services/api.mongo.service'
 // eslint-disable-next-line no-unused-vars
 import { GETPATIENTS, CARNET, GETUNIDADMEDICA, GETDIAGNOSTICO, GETDELEGACION, GETOPTIONS } from '@/boot/endpoints/carnet'
 import { mapGetters } from 'vuex'
+import moment from 'moment'
 export default {
   data () {
     return {
@@ -275,7 +281,8 @@ export default {
         { label: 'CURP', field: 'curp', align: 'left' },
         { label: 'Nombre', field: 'nombre_paciente', align: 'left' },
         { label: 'Edad', field: 'edad', align: 'left' },
-        { label: 'Diagnostico', field: 'diagnostico_cie10', align: 'left' },
+        { label: 'Unidad Médica', field: 'unidad_medica_atencion', align: 'left' },
+        { label: 'Diagnóstico', field: 'diagnostico_cie10', align: 'left' },
         { label: 'Acciones', field: 'actions', align: 'left' }
       ],
       pacientes: [],
@@ -320,9 +327,19 @@ export default {
       ApiMongoService.get(CARNET, patient)
         .then(response => response.json())
         .then((data) => {
-          console.log(data)
           this.paciente = data[0]
           this.carnets = data
+          this.carnets.sort((a, b) => {
+            a = moment(a, 'DD-MM-YYYY hh:mm').format()
+            b = moment(a, 'DD-MM-YYYY hh:mm').format()
+            if (a > b) {
+              return 1
+            }
+            if (a < b) {
+              return -1
+            }
+            return 0
+          })
         })
     },
     getOptions (options) {
