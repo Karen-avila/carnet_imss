@@ -12,5 +12,8 @@ RUN adduser -D $USER \
 
 COPY ./dist/spa /usr/share/nginx/html
 
+RUN chmod -R 771 /var/cache/nginx
+RUN chown -R default:root /var/cache/nginx
+
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
