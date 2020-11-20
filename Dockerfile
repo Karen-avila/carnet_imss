@@ -1,6 +1,6 @@
 FROM nginx:alpine
 
-ARG USER=default
+ARG USER=nginx
 RUN apk add --update sudo
 
 ENV HOME /home/$USER
