@@ -16,4 +16,4 @@ RUN chmod -R 771 /var/cache/nginx
 RUN chown -R default:root /var/cache/nginx
 
 EXPOSE 80
-CMD ["sudo nginx", "-g", "daemon off;"]
+CMD ["sudo /usr/sbin/nginx", "-g", "daemon off;"]
