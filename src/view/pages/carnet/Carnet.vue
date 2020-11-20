@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.q-py-sm.q-px-xl
+  div.layout.q-pt-lg.q-pb-xl.q-px-xl.q-mx-auto
     template(v-if="currentUser.pacientes")
       span.text-h4 Carnet
       q-separator(color='grey-4' size='2px')
@@ -72,15 +72,14 @@
               q-select(
                 outlined=''
                 dense=''
-                v-model='form.denominacion_unidad_atencion'
-                label='Unidad Médica'
+                v-model='form.delegacion'
+                label='Delegación'
                 use-input=''
                 hide-selected=''
                 fill-input=''
                 input-debounce='0'
-                :options='options.denominacion_unidad_atencion'
-                @filter='filterFndenominacion_unidad_atencion'
-                style="width:100%"
+                :options='options.delegacion'
+                @filter='filterFndelegacion'
               )
                 template(v-slot:no-option='')
                   q-item
@@ -90,14 +89,15 @@
               q-select(
                 outlined=''
                 dense=''
-                v-model='form.delegacion'
-                label='Delegación'
+                v-model='form.denominacion_unidad_atencion'
+                label='Unidad Médica'
                 use-input=''
                 hide-selected=''
                 fill-input=''
                 input-debounce='0'
-                :options='options.delegacion'
-                @filter='filterFndelegacion'
+                :options='options.denominacion_unidad_atencion'
+                @filter='filterFndenominacion_unidad_atencion'
+                style="width:100%"
               )
                 template(v-slot:no-option='')
                   q-item
@@ -437,6 +437,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.layout
+  max-width: 1400px
 .alert-banner
   background-color: #fcf2ce!important
   border-color: $warning!important
