@@ -1,15 +1,27 @@
-FROM nginx:alpine
+FROM node:12.18.4-alpine3.9
 
+RUN apk update
+ARG USER=default
+RUN apk add --update sudo
 
-RUN rm -rf /usr/share/nginx/html/*
-COPY ./dist/spa /usr/share/nginx/html
+ENV HOME /home/$USER
 
-COPY ./nginx.conf /etc/nginx/nginx.conf
-COPY bin/uid_entrypoint /bin/uid_entrypoint
+ENV AUTHENDPOINT=https://msapop-autenticacion.cloudapps.imss.gob.mx
+ENV MONGOENDPOINT=https://msapop-consulta-apop.cloudapps.imss.gob.mx
+ENV DEBUGG=False
 
-ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN adduser -D $USER \
+        && echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER \
+        && chmod 0440 /etc/sudoers.d/$USER
 
-USER nginx:nginx
-EXPOSE 80
+WORKDIR /app
+COPY ./ /app
+RUN npm install -g @quasar/cli
 
-CMD ["nginx", "-g", "daemon off;"]
+RUN npm i
+RUN npm rebuild node-sass
+RUN chmod -R 771 /app
+RUN chown -R default:root /app
+
+EXPOSE 8080
+CMD npm run dev

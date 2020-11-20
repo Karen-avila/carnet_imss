@@ -58,9 +58,9 @@ module.exports = function (/* ctx */) {
       vueRouterMode: 'hash', // available values: 'hash', 'history
 
       env: {
-        AUTHENDPOINT: process.env.AUTHENDPOINT ? process.env.AUTHENDPOINT : 'https://msapop-autenticacion-uat.cloudapps.imss.gob.mx',
-        MONGOENDPOINT: process.env.MONGOENDPOINT ? process.env.MONGOENDPOINT : 'https://msapop-consulta-apop-qa.cloudapps.imss.gob.mx/',
-        DEBUGGING: process.env.DEBUGGING ? process.env.DEBUGGING : true
+        AUTHENDPOINT: process.env.AUTHENDPOINT ? process.env.AUTHENDPOINT : 'https://msapop-autenticacion.cloudapps.imss.gob.mx',
+        MONGOENDPOINT: process.env.MONGOENDPOINT ? process.env.MONGOENDPOINT : 'https://msapop-consulta-apop.cloudapps.imss.gob.mx',
+        DEBUGGING: process.env.DEBUGGING ? process.env.DEBUGGING : false
       },
 
 
