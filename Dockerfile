@@ -1,6 +1,5 @@
 FROM nginx:alpine
 
-RUN apk update
 ARG USER=default
 RUN apk add --update sudo
 
@@ -15,5 +14,8 @@ COPY ./dist/spa /usr/share/nginx/html
 RUN chmod -R 771 /var/cache/nginx
 RUN chown -R default:root /var/cache/nginx
 
+RUN chmod -R 771 /usr/sbin
+RUN chown -R default:root /usr/sbin
+
 EXPOSE 80
-CMD ["sudo /usr/sbin/nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
