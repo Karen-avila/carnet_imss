@@ -39,8 +39,6 @@ module.exports = function (/* ctx */) {
       // 'themify',
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
-
-      'roboto-font', // optional, you are not bound to it
       'material-icons' // optional, you are not bound to it
     ],
     sourceFiles: {
@@ -62,7 +60,6 @@ module.exports = function (/* ctx */) {
         MONGOENDPOINT: process.env.MONGOENDPOINT ? process.env.MONGOENDPOINT : 'https://msapop-consulta-apop.cloudapps.imss.gob.mx',
         DEBUGGING: process.env.DEBUGGING ? process.env.DEBUGGING : false
       },
-
 
       // transpile: false,
 

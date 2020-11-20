@@ -5,7 +5,8 @@ import { LOGIN } from '@/boot/endpoints/auth'
 const state = {
   errors: {},
   user: {},
-  isAuthenticated: !!JwtService.getToken()
+  isAuthenticated: !!JwtService.getToken(),
+  authenting: false
 }
 
 const getters = {
@@ -14,12 +15,16 @@ const getters = {
   },
   isAuthenticated (state) {
     return state.isAuthenticated
+  },
+  authenting (state) {
+    return state.authenting
   }
 }
 
 const actions = {
   login (context, credentials) {
     return new Promise(resolve => {
+      context.commit('setAuthenting', true)
       ApiLoginService.setHeaderLogin()
       ApiLoginService.post(LOGIN, credentials)
         .then(({ data }) => {
@@ -54,13 +59,19 @@ const actions = {
 }
 
 const mutations = {
+  setAuthenting (state) {
+    state.authenting = true
+  },
   setError (state, error) {
     state.errors = error
+    state.authenting = false
   },
   setUser (state, user) {
     state.isAuthenticated = true
+    if (!user.pacientes) user.pacientes = []
     state.user = user
     state.errors = {}
+    state.authenting = false
     JwtService.saveToken(state.user.access_token)
   },
   logOut (state) {

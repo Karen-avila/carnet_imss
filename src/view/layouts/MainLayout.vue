@@ -1,20 +1,20 @@
 <template>
   <q-layout view="hHh lpR fff">
-    <q-header elevated class="bg-primary">
-      <q-toolbar>
-      </q-toolbar>
-    </q-header>
     <q-page-container>
       <q-toolbar class="bg-grey-2 text-black q-px-xl">
-        <q-toolbar-title class="text-subtitle2">{{currentUser.nombrePersonal}}</q-toolbar-title>
+        <q-toolbar-title class="text-subtitle2 text-right" v-if="this.currentUser.access_token">
+          {{currentUser.nombrePersonal}}
+          <span class="text-caption text-grey" v-if="currentUser.pacientes.length">
+            - Familiar
+          </span>
+          <span class="text-caption text-grey" v-else>
+            - Personal de la salud
+          </span>
+        </q-toolbar-title>
         <q-btn flat="" outline="" label="Cerrar sesion" color="secondary" @click="onLogout"></q-btn>
       </q-toolbar>
       <router-view />
     </q-page-container>
-    <q-footer elevated class="bg-primary" style="min-height: 6rem">
-      <q-toolbar>
-      </q-toolbar>
-    </q-footer>
   </q-layout>
 </template>
 
@@ -23,6 +23,11 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
+    }
+  },
+  beforeMount () {
+    if (!this.currentUser.access_token) {
+      this.$router.push({ name: 'login' })
     }
   },
   methods: {

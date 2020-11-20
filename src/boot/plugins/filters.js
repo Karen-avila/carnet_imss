@@ -2,6 +2,6 @@ import Vue from 'vue'
 import moment from 'moment'
 
 Vue.filter('DateTime', function (value) {
-  if (!value) return '-'
-  return moment(value).format('LL')
+  moment.locale('es')
+  return moment(value, 'YYYY-MM-DD hh:mm').format('DD/MM/YYYY')
 })
