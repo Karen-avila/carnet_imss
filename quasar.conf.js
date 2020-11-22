@@ -34,7 +34,7 @@ module.exports = function (/* ctx */) {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v5',
-      // 'fontawesome-v5',
+      'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
@@ -58,7 +58,7 @@ module.exports = function (/* ctx */) {
       env: {
         AUTHENDPOINT: process.env.AUTHENDPOINT ? process.env.AUTHENDPOINT : 'https://msapop-autenticacion.cloudapps.imss.gob.mx',
         MONGOENDPOINT: process.env.MONGOENDPOINT ? process.env.MONGOENDPOINT : 'https://msapop-consulta-apop.cloudapps.imss.gob.mx',
-        DEBUGGING: process.env.DEBUGGING ? process.env.DEBUGGING : false
+        DEBUGG: process.env.DEBUGG ? process.env.DEBUGG : true
       },
 
       // transpile: false,
@@ -85,6 +85,14 @@ module.exports = function (/* ctx */) {
           '@': path.resolve(__dirname, './src')
         }
         cfg.module.rules.push({
+          test: /\.less$/,
+          use: [
+            'vue-style-loader',
+            'css-loader',
+            'less-loader'
+          ]
+        })
+        cfg.module.rules.push({
           test: /\.pug$/,
           loader: 'pug-plain-loader'
         })
@@ -95,7 +103,7 @@ module.exports = function (/* ctx */) {
           exclude: [
             path.resolve(__dirname, './src-capacitor'),
             path.resolve(__dirname, './src-cordova'),
-            path.resolve(__dirname, './node_modules'),
+            path.resolve(__dirname, './node_modules')
           ]
         })
       }

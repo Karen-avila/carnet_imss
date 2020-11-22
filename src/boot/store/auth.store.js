@@ -28,6 +28,7 @@ const actions = {
       ApiLoginService.setHeaderLogin()
       ApiLoginService.post(LOGIN, credentials)
         .then(({ data }) => {
+          data.token = credentials
           context.commit('setUser', data)
           resolve(data)
         })
@@ -39,19 +40,20 @@ const actions = {
   logout (context) {
     context.commit('logOut')
   },
+  sendError (context, error) {
+    context.commit('setError', [error])
+  },
   verifyAuth (context) {
     if (JwtService.getToken()) {
-      return true
-      // ApiService.setHeaderVerify()
-      // console.log(JwtService.getToken())
-      // ApiService.post('/msapop-autenticacion/v1/oauth/token', `refresh_token=${JwtService.getToken()}&grant_type=refresh_token`)
-      //   .then(({ data }) => {
-      //     console.log('verifyAuth', data)
-      //     context.commit('setUser', data)
-      //   })
-      //   .catch(({ response }) => {
-      //     context.commit('setError', response.data.errors)
-      //   })
+      ApiLoginService.setHeaderLogin()
+      ApiLoginService.post(LOGIN, JwtService.getToken())
+        .then(({ data }) => {
+          data.token = JwtService.getToken()
+          context.commit('setUser', data)
+        })
+        .catch(({ response }) => {
+          context.commit('setError', ['Las credenciales son incorrectas'])
+        })
     } else {
       context.commit('logOut')
     }
@@ -72,7 +74,7 @@ const mutations = {
     state.user = user
     state.errors = {}
     state.authenting = false
-    JwtService.saveToken(state.user.access_token)
+    JwtService.saveToken(user.token)
   },
   logOut (state) {
     state.isAuthenticated = false
