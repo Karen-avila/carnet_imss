@@ -178,9 +178,9 @@
             span(v-else) {{props.value}}
       template(v-if="paciente")
         .row.q-mb-xl.q-mt-xl.q-col-gutter-x-xl.bg-carnet.q-col-gutter-y-md
-          .col-lg-10.col-12.q-col-gutter-y-lg
+          .col-md-10.col-12.q-col-gutter-y-lg
             .row.q-col-gutter-x-lg.q-col-gutter-y-md
-              .col-lg-6.col-12
+              .col-md-6.col-12
                 q-card.q-py-sm.shadow-4.b-ra-12
                   q-item
                     q-item-section(avatar='')
@@ -191,7 +191,7 @@
                       q-item-label {{paciente.nombre_paciente}} {{paciente.ap_paterno_paciente}} {{paciente.ap_materno_paciente}}
                       q-item-label(caption='') Fecha de nacimiento
                       q-item-label {{paciente.fecha_nacimiento | DateTime}}
-              .col-lg-6.col-12
+              .col-md-6.col-12
                 q-card.q-py-sm.shadow-4.b-ra-12
                   q-item
                     q-item-section(avatar='')
@@ -203,7 +203,7 @@
                       q-item-label(caption='') Agregado Médico
                       q-item-label {{paciente.agregado_medico}}
             .row.q-col-gutter-x-lg.q-col-gutter-y-md
-              .col-lg-4.col-12
+              .col-md-4.col-12
                 q-card.q-py-sm.shadow-4.b-ra-12
                   q-item
                     q-item-section(avatar='')
@@ -212,7 +212,7 @@
                     q-item-section
                       q-item-label(caption='') CURP
                       q-item-label {{paciente.curp}}
-              .col-lg-4.col-12
+              .col-md-4.col-12
                 q-card.q-py-sm.shadow-4.b-ra-12
                   q-item
                     q-item-section(avatar='')
@@ -221,7 +221,7 @@
                     q-item-section
                       q-item-label(caption='') Edad
                       q-item-label {{paciente.edad}} años
-              .col-lg-4.col-12
+              .col-md-4.col-12
                 q-card.q-py-sm.shadow-4.b-ra-12
                   q-item
                     q-item-section(avatar='')
@@ -231,7 +231,7 @@
                       q-item-label(caption='') Peso
                       q-item-label {{paciente.peso}} Kg
             .row.q-col-gutter-x-lg.q-col-gutter-y-md
-              .col-lg-8.col-12
+              .col-md-8.col-12
                 q-card.q-py-sm.shadow-4.b-ra-12
                   q-item
                     q-item-section
@@ -239,12 +239,12 @@
                       q-item-label {{paciente.diagnostico_cie10}}
                       q-item-label(caption='') Información
                       q-item-label Tipo de mezcla: {{paciente.tipo_mezcla}}
-              .col-lg-4.col-12
+              .col-md-4.col-12
                 q-card.q-py-sm.bg-green-11.b-ra-12.shadow-4
                   q-item
                     q-item-section
                       q-item-label La información de los medicamentos proviene de centros de mezcla subrogados
-          .col-lg-2.col-12(:class="`${$q.screen.xs || $q.screen.sm ? 'order-first': ''}`")
+          .col-md-2.col-12(:class="`${$q.screen.xs || $q.screen.sm ? 'order-first': ''}`")
             q-card.b-ra-12.q-mx-auto.transparent(
               flat=''
               bordered=false
