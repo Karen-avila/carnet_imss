@@ -1,5 +1,5 @@
 <template lang="pug">
-  .layout.q-mx-auto.q-mb-xl.q-pa-sm
+  .layout.q-mx-auto.q-mb-xl.q-pa-md
     template(v-if="currentUser.pacientes")
       span.text-h4 Carnet
       q-separator(color='grey-4' size='2px')
@@ -10,8 +10,8 @@
       )
       q-form.q-col-gutter-y-md(v-if="currentUser.pacientes.length === 0")
         p.q-mt-md INGRESA LOS DATOS DEL PACIENTE
-          .row.q-col-gutter-xl
-            .col-lg-6.col-12.self-end
+          .row.q-col-gutter-md
+            .col-md-6.col-12.self-end
               label Nombre (s):
               q-input(
                 outlined=''
@@ -20,7 +20,7 @@
                 placeholder='Ingresa el nombre'
                 lazy-rules=''
               )
-            .col-lg-3.col-12.self-end
+            .col-md-3.col-12.self-end
               label Primer apellido:
               q-input(
                   outlined=''
@@ -29,7 +29,7 @@
                   placeholder='Ingresa el apellido'
                   lazy-rules=''
                 )
-            .col-lg-3.col-12.self-end
+            .col-md-3.col-12.self-end
               label Segundo apellido:
               q-input(
                   outlined=''
@@ -38,8 +38,8 @@
                   label='Ingresa el apellido'
                   lazy-rules=''
                 )
-          .row.q-col-gutter-xl
-            .col-lg-3.col-12.self-end
+          .row.q-col-gutter-md
+            .col-md-3.col-12.self-end
               label Clave única de registro de población (CURP):
               q-input(
                 outlined=''
@@ -49,7 +49,7 @@
                 lazy-rules=''
                 style="width:100%"
               )
-            .col-lg-3.col-12.self-end
+            .col-md-3.col-12.self-end
               label Delegación:
               q-select(
                 outlined=''
@@ -67,7 +67,7 @@
                   q-item
                     q-item-section.text-grey
                       | No hay coincidencias
-            .col-lg-6.col-12.self-end
+            .col-md-6.col-12.self-end
               label Unidad médica:
               q-select(
                 outlined=''
@@ -86,8 +86,8 @@
                   q-item
                     q-item-section.text-grey
                       | No hay coincidencias
-          .row.q-col-gutter-xl
-            .col-lg-4.col-12.self-end
+          .row.q-col-gutter-md
+            .col-md-4.col-12.self-end
               label Número de seguro social (NSS):
               q-input(
                 outlined=''
@@ -97,7 +97,7 @@
                 lazy-rules=''
                 style="width:100%"
               )
-            .col-lg-8.col-12.self-end
+            .col-md-8.col-12.self-end
               label Diagnóstico:
               q-select(
                 outlined=''
@@ -118,20 +118,20 @@
           .row.q-col-gutter-xl
             .col-12
               div.q-mt-md.text-right
-                q-btn(
+                q-btn.text-capitalize(
                   label='Limpiar'
                   color='grey-6'
                   outline=''
-                  style='min-width: 160px'
+                  style='min-width: 150px'
                   @click='reset'
                 )
-                q-btn.q-ml-lg(
+                q-btn.q-ml-lg.text-capitalize(
                   :loading='searching'
                   color='accent'
                   outline=''
                   ref='searchPatient'
                   @click='search'
-                  style='min-width: 160px'
+                  style='min-width: 150px'
                 )
                   | {{pacientes.length === 0 ? "Buscar" : "Buscar"}}
                   template(v-slot:loading='')
@@ -177,9 +177,9 @@
               q-icon(name='person_search' size='md', color='accent')
             span(v-else) {{props.value}}
       template(v-if="paciente")
-        .row.q-mb-xl.q-mt-xl.q-col-gutter-x-xl.bg-carnet
+        .row.q-mb-xl.q-mt-xl.q-col-gutter-x-xl.bg-carnet.q-col-gutter-y-md
           .col-lg-10.col-12.q-col-gutter-y-lg
-            .row.q-col-gutter-x-lg
+            .row.q-col-gutter-x-lg.q-col-gutter-y-md
               .col-lg-6.col-12
                 q-card.q-py-sm.shadow-4.b-ra-12
                   q-item
@@ -202,7 +202,7 @@
                       q-item-label {{paciente.nss}}
                       q-item-label(caption='') Agregado Médico
                       q-item-label {{paciente.agregado_medico}}
-            .row.q-col-gutter-x-lg
+            .row.q-col-gutter-x-lg.q-col-gutter-y-md
               .col-lg-4.col-12
                 q-card.q-py-sm.shadow-4.b-ra-12
                   q-item
@@ -230,7 +230,7 @@
                     q-item-section
                       q-item-label(caption='') Peso
                       q-item-label {{paciente.peso}} Kg
-            .row.q-col-gutter-x-lg
+            .row.q-col-gutter-x-lg.q-col-gutter-y-md
               .col-lg-8.col-12
                 q-card.q-py-sm.shadow-4.b-ra-12
                   q-item
@@ -240,12 +240,16 @@
                       q-item-label(caption='') Información
                       q-item-label Tipo de mezcla: {{paciente.tipo_mezcla}}
               .col-lg-4.col-12
-                q-card.q-py-sm.bg-green-11.b-ra-12.shadow-18
+                q-card.q-py-sm.bg-green-11.b-ra-12.shadow-4
                   q-item
                     q-item-section
                       q-item-label La información de los medicamentos proviene de centros de mezcla subrogados
-          .col-lg-2.col-12
-            q-card.b-ra-12.shadow-20.shadow-20-blue
+          .col-lg-2.col-12(:class="`${$q.screen.xs || $q.screen.sm ? 'order-first': ''}`")
+            q-card.b-ra-12.q-mx-auto.transparent(
+              flat=''
+              bordered=false
+              style="max-width:200px"
+            )
               img.q-mx-auto(
                 src='@/assets/img/carnet/kid.png'
                 style="max-width:275px; max-heigth:275px;"
@@ -264,15 +268,15 @@
                 q-item-section
                   p.no-margin Unidad de atención
                   p.no-margin.text-weight-bold {{carnet.denominacion_unidad_atencion ? carnet.denominacion_unidad_atencion : '-'}}
-              .col
+              .col(:class="`${$q.screen.xs || $q.screen.sm ? 'hidden': ''}`")
                 q-item-section
                   p.no-margin Médico
                   p.no-margin.text-weight-bold {{carnet.medico ? carnet.medico : '-'}}
-              .col
+              .col(:class="`${$q.screen.xs || $q.screen.sm ? 'hidden': ''}`")
                 q-item-section
                   p.no-margin Cama
                   p.no-margin.text-weight-bold {{carnet.cama && carnet.cama != 0 ? carnet.cama : '-'}}
-              .col
+              .col(:class="`${$q.screen.xs || $q.screen.sm ? 'hidden': ''}`")
                 q-item-section
                   p.no-margin Fecha
                   p.no-margin.text-weight-bold {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}` | DateTime}}
@@ -493,9 +497,6 @@ export default {
 }
 .q-expansion-item.q-item-type.b-ra-12.bg-grey-2.q-expansion-item--expanded.q-expansion-item--standard{
   background: $amber-2!important;
-}
-.shadow-20-blue {
-  box-shadow: 0 10px 13px -6px rgba(2, 215, 253, 1), 0 20px 31px 3pxrgba(2, 215, 253, 1), 0 8px 38px 7px rgba(2, 215, 253, 1)!important;
 }
 </style>
 

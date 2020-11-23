@@ -34,7 +34,6 @@
               )
                 template(v-slot:append='')
                   q-icon.cursor-pointer(:name="form.isPwd ? 'visibility_off' : 'visibility'" @click='form.isPwd = !form.isPwd')
-              span.text-blue-10 ¿Olvidaste tu contraseña?
               vue-recaptcha.q-mt-md(
                 ref="recaptcha"
                 sitekey='6LfRkssZAAAAAKCmzP4ncb7zoprDvQgLg_8XbNI2'
