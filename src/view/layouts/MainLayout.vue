@@ -7,9 +7,9 @@ q-layout(view='hHh lpR fff')
     )
       q-toolbar-title.text-subtitle2.text-right
         | {{currentUser.nombrePersonal}}
-        span.text-caption.text-grey.q-mr-sm(v-if='currentUser.pacientes.length')
+        span.text-caption.text-grey.q-ml-sm(v-if='currentUser.pacientes.length')
           | Familiar
-        span.text-caption.text-grey.q-mr-sm(v-else='')
+        span.text-caption.text-grey.q-ml-sm(v-else='')
           | Personal de la salud
       q-btn(flat='', outline='', label='Cerrar sesion', color='secondary', @click='onLogout')
     q-page-container(style='padding-top: 20px;')
