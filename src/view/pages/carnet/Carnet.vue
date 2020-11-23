@@ -267,24 +267,36 @@
               .col
                 q-item-section
                   p.no-margin Unidad de atención
-                  p.no-margin.text-weight-bold {{carnet.denominacion_unidad_atencion ? carnet.denominacion_unidad_atencion : '-'}}
+                  p.no-margin.text-grey-7.text-weight-bold
+                    | {{carnet.denominacion_unidad_atencion ? carnet.denominacion_unidad_atencion : '-'}}
+                    br
+                    | {{carnet.unidad_medica_atencion ? carnet.unidad_medica_atencion : '-'}}
               .col(:class="`${$q.screen.xs || $q.screen.sm ? 'hidden': ''}`")
                 q-item-section
                   p.no-margin Médico
-                  p.no-margin.text-weight-bold {{carnet.medico ? carnet.medico : '-'}}
+                  p.no-margin.text-grey-7.text-weight-bold {{carnet.medico ? carnet.medico : '-'}}
               .col(:class="`${$q.screen.xs || $q.screen.sm ? 'hidden': ''}`")
                 q-item-section
                   p.no-margin Cama
-                  p.no-margin.text-weight-bold {{carnet.cama && carnet.cama != 0 ? carnet.cama : '-'}}
+                  p.no-margin.text-grey-7.text-weight-bold {{carnet.cama && carnet.cama != 0 ? carnet.cama : '-'}}
               .col(:class="`${$q.screen.xs || $q.screen.sm ? 'hidden': ''}`")
                 q-item-section
                   p.no-margin Fecha
-                  p.no-margin.text-weight-bold {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}` | DateTime}}
+                  p.no-margin.text-grey-7.text-weight-bold {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}` | DateTime}}
+            row.bg-yellow-2(:class="`${$q.screen.xs || $q.screen.sm ? '': 'hidden'}`")
+              .col.q-px-md.q-pb-md
+                p.no-margin Médico
+                p.no-margin.text-grey-7.text-weight-bold {{carnet.medico ? carnet.medico : '-'}}
+                p.no-margin Cama
+                p.no-margin.text-grey-7.text-weight-bold {{carnet.cama && carnet.cama != 0 ? carnet.cama : '-'}}
+                p.no-margin Fecha
+                p.no-margin.text-grey-7.text-weight-bold {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}` | DateTime}}
             q-markup-table(
               flat=''
               bordered=true
               separator='cell'
             )
+              .col(:class="`${$q.screen.xs || $q.screen.sm ? 'hidden': ''}`")
               thead.bg-yellow-2
                 tr
                   th.text-center ID Preescripción
