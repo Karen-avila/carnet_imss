@@ -198,7 +198,7 @@
                       q-avatar(color='blue-1', text-color='white')
                         img.q-mt-xs(src='@/assets/img/carnet/Vector1.png')
                     q-item-section
-                      q-item-label(caption='') NNS
+                      q-item-label(caption='') NSS
                       q-item-label {{paciente.nss}}
                       q-item-label(caption='') Agregado Médico
                       q-item-label {{paciente.agregado_medico}}
@@ -330,8 +330,8 @@
                       header-class="text-negative"
                     )
                       q-card.bg-red-1
-                        q-card-section.text-negative
-                          | {{prescription.motivo ? prescription.motivo : "No hay motivo capturado"}}
+                        q-card-section
+                          span.text-negative {{prescription.motivo | Capitalize}}
 </template>
 
 <script>
