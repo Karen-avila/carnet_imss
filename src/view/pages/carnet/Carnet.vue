@@ -177,7 +177,7 @@
               q-icon(name='person_search' size='md', color='accent')
             span(v-else) {{props.value}}
       template(v-if="paciente")
-        .row.q-mb-xl.q-mt-xl.q-col-gutter-x-xl.bg-amber-1
+        .row.q-mb-xl.q-mt-xl.q-col-gutter-x-xl.bg-carnet
           .col-lg-10.col-12.q-col-gutter-y-lg
             .row.q-col-gutter-x-lg
               .col-lg-6.col-12
@@ -240,12 +240,12 @@
                       q-item-label(caption='') Información
                       q-item-label Tipo de mezcla: {{paciente.tipo_mezcla}}
               .col-lg-4.col-12
-                q-card.q-py-sm.bg-green-11.b-ra-12.shadow-12
+                q-card.q-py-sm.bg-green-11.b-ra-12.shadow-18
                   q-item
                     q-item-section
                       q-item-label La información de los medicamentos proviene de centros de mezcla subrogados
           .col-lg-2.col-12
-            q-card.b-ra-12.shadow-20
+            q-card.b-ra-12.shadow-20.shadow-20-blue
               img.q-mx-auto(
                 src='@/assets/img/carnet/kid.png'
                 style="max-width:275px; max-heigth:275px;"
@@ -477,6 +477,12 @@ export default {
 .layout{
   max-width: 1400px;
 }
+.bg-carnet{
+  background-image: url(~assets/img/carnet/bg.png);
+  background-position: left;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .b-ra-12{
   border-radius: 12px;
 }
@@ -488,7 +494,10 @@ export default {
 .q-expansion-item.q-item-type.b-ra-12.bg-grey-2.q-expansion-item--expanded.q-expansion-item--standard{
   background: $amber-2!important;
 }
-</style>.
+.shadow-20-blue {
+  box-shadow: 0 10px 13px -6px rgba(2, 215, 253, 1), 0 20px 31px 3pxrgba(2, 215, 253, 1), 0 8px 38px 7px rgba(2, 215, 253, 1)!important;
+}
+</style>
 
 <style lang="sass">
 .carnet-header-table
