@@ -1,10 +1,17 @@
 <template lang="pug">
-  div.q-mx-md.q-mx-auto(style="max-width:1439px")
-    .row.bg-login(style="min-height:85vh")
-      .col-5
-        h5.text-secondary Oncología Pediátrica
-        h4.text-primary “La detección temprana del cáncer puede salvar vidas”
-      .col-6.self-center
+  div.q-mx-md.q-mx-auto.q-pa-md(style="max-width:1439px")
+    .row(
+        style="min-height:85vh"
+        :class="`${$q.screen.xs || $q.screen.sm ? '': 'bg-login'}`"
+      )
+      .col-md-5.col-12
+        h5.text-secondary(
+          :class="`${$q.screen.xs || $q.screen.sm ? 'no-margin': ''}`"
+        ) Oncología Pediátrica
+        h4.text-primary(
+          :class="`${$q.screen.xs || $q.screen.sm ? 'text-h6 no-margin': ''}`"
+        ) “La detección temprana del cáncer puede salvar vidas”
+      .col-md-7.col-12.self-center
         q-card.login-card.q-mx-auto.q-pt-md.q-pb-xl.shadow-12(style="max-width: 656px")
           q-card-section.q-mx-auto(style="max-width: 460px")
             h5.q-my-md.text-center Inicio de sesión
