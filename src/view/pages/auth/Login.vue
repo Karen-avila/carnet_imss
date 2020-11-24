@@ -89,13 +89,6 @@ export default {
     this.$store.dispatch('logout')
   },
   mounted () {
-    if (process.env.DEBUGG) {
-      console.log(process.env.AUTHENDPOINT)
-      console.log(process.env.MONGOENDPOINT)
-      console.log(process.env.DEBUGG)
-      this.form.username = '00110011'
-      this.form.password = '00110011'
-    } else console.log('PRODUCTION')
   },
   methods: {
     onVerify (response) {
