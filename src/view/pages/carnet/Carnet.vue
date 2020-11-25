@@ -177,7 +177,7 @@
               q-icon(name='person_search' size='md', color='accent')
             span(v-else) {{props.value}}
       template(v-if="paciente")
-        .row.q-mb-xl.q-mt-xl.q-col-gutter-x-xl.bg-carnet.q-col-gutter-y-md
+        .row.q-mb-xl.q-col-gutter-x-xl.bg-carnet.q-col-gutter-y-md
           .col-md-10.col-12.q-col-gutter-y-lg
             .row.q-col-gutter-x-lg.q-col-gutter-y-md
               .col-md-6.col-12
@@ -326,7 +326,7 @@
                       v-else
                       dense=''
                       dense-toggle=''
-                      :label='prescription.entregado | Capitalize'
+                      :label='`${prescription.entregado === "ENTREGADO" ? prescription.entregado : "-"}` | Capitalize'
                       header-class="text-negative"
                     )
                       q-card.bg-red-1
