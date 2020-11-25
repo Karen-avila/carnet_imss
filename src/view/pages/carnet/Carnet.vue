@@ -316,12 +316,12 @@
                   td.text-center {{prescription.cantidad_bolos}}
                   td.text-center {{prescription.tipo}}
                   td.text-center(
-                    :class='{"bg-red-1": prescription.entregado !== "ENTREGADO","bg-green-11": prescription.entregado === "ENTREGADO"}'
+                    :class='{"bg-red-1": prescription.entregado === "NO ENTREGADO", "bg-green-11": prescription.entregado === "ENTREGADO"}'
                   )
                     span(
-                      :class='{ "text-negative": prescription.entregado !== "ENTREGADO", "text-green-8": prescription.entregado === "ENTREGADO" }'
+                      :class='{ "text-negative": prescription.entregado === "NO ENTREGADO", "text-green-8": prescription.entregado === "ENTREGADO" }'
                       v-if='!prescription.motivo'
-                    ) {{prescription.entregado | Capitalize}}
+                    ) {{prescription.entregado ? prescription.entregado : '-' | Capitalize}}
                     q-expansion-item(
                       v-else
                       dense=''
