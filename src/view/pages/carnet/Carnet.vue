@@ -320,18 +320,7 @@
                   )
                     span(
                       :class='{ "text-negative": prescription.entregado === "NO ENTREGADO", "text-green-8": prescription.entregado === "ENTREGADO" }'
-                      v-if='!prescription.motivo'
                     ) {{prescription.entregado ? prescription.entregado : '-' | Capitalize}}
-                    q-expansion-item(
-                      v-else
-                      dense=''
-                      dense-toggle=''
-                      :label='`${prescription.entregado === "NO ENTREGADO" ? prescription.entregado : "-"}` | Capitalize'
-                      header-class="text-negative"
-                    )
-                      q-card.bg-red-1
-                        q-card-section
-                          span.text-negative {{prescription.motivo | Capitalize}}
 </template>
 
 <script>
