@@ -326,7 +326,7 @@
                       v-else
                       dense=''
                       dense-toggle=''
-                      :label='`${prescription.entregado === "ENTREGADO" ? prescription.entregado : "-"}` | Capitalize'
+                      :label='`${prescription.entregado === "NO ENTREGADO" ? prescription.entregado : "-"}` | Capitalize'
                       header-class="text-negative"
                     )
                       q-card.bg-red-1
@@ -420,6 +420,12 @@ export default {
         .then((data) => {
           this.paciente = data[0]
           this.carnets = data
+          this.carnets.map(carnet => {
+            carnet.carnet.sort(function (a, b) {
+              if (a.id_prescripcion === b.id_prescripcion) return (a.tipo < b.tipo) ? 1 : (a.tipo > b.tipo) ? -1 : 0
+              else return (a.id_prescripcion < b.id_prescripcion) ? -1 : 1
+            })
+          })
           this.carnets.sort((a, b) => {
             a = moment(a.fecha_prescripcion, 'YYYY-MM-DD hh:mm')
             b = moment(b.fecha_prescripcion, 'YYYY-MM-DD hh:mm')
