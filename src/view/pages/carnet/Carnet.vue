@@ -468,7 +468,7 @@ export default {
           cve_idee: ''
         }
       }
-      this.paciente = []
+      this.paciente = null
       this.carnets = []
       this.noResults = false
     },
