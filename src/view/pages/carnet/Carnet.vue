@@ -459,7 +459,7 @@ export default {
         this.form = {
           curp: '',
           nss: '',
-          unidad_medica_atencion: '',
+          denominacion_unidad_atencion: '',
           nombre_paciente: '',
           ap_paterno_paciente: '',
           ap_materno_paciente: '',
@@ -468,7 +468,7 @@ export default {
           cve_idee: ''
         }
       }
-      this.paciente = null
+      this.paciente = []
       this.carnets = []
       this.noResults = false
     },

@@ -57,7 +57,7 @@ module.exports = function (/* ctx */) {
 
       env: {
         AUTHENDPOINT: 'https://msapop-autenticacion.cloudapps.imss.gob.mx',
-        MONGOENDPOINT: 'https://msapop-consulta-apop.cloudapps.imss.gob.mx/',
+        MONGOENDPOINT: 'http://localhost:5000',
         DEBUGG: false
       },
 
@@ -82,7 +82,8 @@ module.exports = function (/* ctx */) {
         cfg.resolve.alias = {
           ...cfg.resolve.alias, // This adds the existing alias
           // Add your own alias like this
-          '@': path.resolve(__dirname, './src')
+          '@': path.resolve(__dirname, './src'),
+          '@view': path.resolve(__dirname, './src/view')
         }
         cfg.module.rules.push({
           test: /\.less$/,
