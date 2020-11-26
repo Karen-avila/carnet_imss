@@ -404,6 +404,8 @@ export default {
     },
     setPatient (patient) {
       if (this.currentUser.pacientes.length === 0) this.pacientes = {}
+      console.log(patient)
+      debugger
       ApiMongoService.get(CARNET, patient)
         .then(response => response.json())
         .then((data) => {

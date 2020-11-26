@@ -1,1 +1,1 @@
-export const LOGIN = '/msapop-autenticacion/v1/oauth/token'
+export const LOGIN = '/msapop-autenticacion/v2/oauth/token'
