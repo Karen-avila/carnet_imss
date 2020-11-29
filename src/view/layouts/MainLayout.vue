@@ -1,30 +1,46 @@
 <template lang="pug">
-q-layout(view='hHh lpR fff')
+q-layout(
+  view='hHh lpR fff'
+)
   NavBar
-  template(v-if="currentUser.pacientes")
+  template(
+    v-if='currentUser.pacientes'
+  )
     q-toolbar.q-header-toolbar.q-mx-auto.bg-grey-2.text-black(
       style='margin-top:60px'
     )
-      q-toolbar-title.text-subtitle2.text-right
-        | {{currentUser.nombrePersonal}}
-        span.text-caption.text-grey.q-ml-sm(v-if='currentUser.pacientes.length')
-          | Familiar
-        span.text-caption.text-grey.q-ml-sm(v-else='')
-          | Personal de la salud
-      q-btn(flat='', outline='', label='Cerrar sesion', color='secondary', @click='onLogout')
-    q-page-container(style='padding-top: 20px;')
-      router-view
-  template(v-if="!currentUser.pacientes")
-    .layout.q-mb-xl.q-mx-auto(style='max-width: 1400px; margin-top:10rem;')
-      q-spinner.q-mr-lg(color='primary', size='md')
-      span.text-h6 Cargando información...
+      q-toolbar-title.text-subtitle2(
+        :class='{"text-left": $q.screen.lt.md, "text-right": $q.screen.gt.sm}'
+      )
+        span.q-mr-md {{currentUser.nombrePersonal}}
+        br(v-if='$q.screen.lt.md')
+        span.text-weight-bold.text-caption.text-grey(
+          v-if='currentUser.pacientes.length'
+        ) Familiar
+        span.text-weight-bold.text-caption.text-grey(
+          v-else=''
+        ) Personal de la salud
+      q-btn.text-weight-bold(
+        flat=''
+        outline=''
+        label='Cerrar sesion'
+        color=''
+        @click='onLogout'
+      )
+    q-page-container(
+      :style='$q.screen.lt.md ? "padding-top: 0px;" : "padding-top: 20px;"'
+    )
+      transition(
+        name='fade'
+      )
+        router-view
   Footer
 </template>
 
 <script>
 import NavBar from '@/view/components/layout/NavBar.vue'
 import Footer from '@/view/components/layout/Footer.vue'
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   components: {
     NavBar,
@@ -45,12 +61,24 @@ export default {
     if (!this.isAuthenticated) {
       this.$router.push({ name: 'login' })
     }
+    // if (this.authenting && !this.currentUser.pacientes) {
+    //   this.$q.loading.show({ message: 'Actualizando usuario' })
+    // }
   },
   computed: {
     ...mapGetters([
       'isAuthenticated',
       'currentUser'
-    ])
+    ]),
+    ...mapState({
+      authenting: state => state.auth.authenting
+    })
+  },
+  watch: {
+    authenting: function (val) {
+      // if (val) this.$q.loading.show({ message: 'Actualizando usuario' })
+      // else this.$q.loading.hide()
+    }
   }
 }
 </script>

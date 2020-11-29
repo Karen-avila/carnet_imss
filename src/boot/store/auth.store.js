@@ -45,6 +45,7 @@ const actions = {
   },
   verifyAuth (context) {
     if (JwtService.getToken()) {
+      context.commit('setAuthenting', true)
       ApiLoginService.setHeaderLogin()
       ApiLoginService.post(LOGIN, JwtService.getToken())
         .then(({ data }) => {

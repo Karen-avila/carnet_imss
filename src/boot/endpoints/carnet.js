@@ -1,6 +1,3 @@
 export const GETPATIENTS = '/api/v1/getPadrones'
 export const CARNET = '/api/v1/getCarnet'
 export const GETOPTIONS = '/api/v1/getOptions'
-export const GETUNIDADMEDICA = '/api/v1/getUnidadMedica'
-export const GETDIAGNOSTICO = '/api/v1/getDiagnostico'
-export const GETDELEGACION = '/api/v1/getDelegacion'

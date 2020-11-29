@@ -27,7 +27,8 @@ module.exports = function (/* ctx */) {
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: [
-      'app.sass'
+      'app.sass',
+      'font.css'
     ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
@@ -60,6 +61,11 @@ module.exports = function (/* ctx */) {
         MONGOENDPOINT: 'https://msapop-consulta-apop.cloudapps.imss.gob.mx',
         DEBUGG: false
       },
+      // env: {
+      //   AUTHENDPOINT: 'https://msapop-autenticacion.cloudapps.imss.gob.mx',
+      //   MONGOENDPOINT: 'http://localhost:5000',
+      //   DEBUGG: true
+      // },
 
       // transpile: false,
 
@@ -84,14 +90,6 @@ module.exports = function (/* ctx */) {
           // Add your own alias like this
           '@': path.resolve(__dirname, './src')
         }
-        cfg.module.rules.push({
-          test: /\.less$/,
-          use: [
-            'vue-style-loader',
-            'css-loader',
-            'less-loader'
-          ]
-        })
         cfg.module.rules.push({
           test: /\.pug$/,
           loader: 'pug-plain-loader'
@@ -120,7 +118,9 @@ module.exports = function (/* ctx */) {
     framework: {
       iconSet: 'material-icons', // Quasar icon set
       lang: 'en-us', // Quasar language pack
-      config: {},
+      config: {
+        loading: { /* look at QUASARCONFOPTIONS from the API card (bottom of page) */ }
+      },
 
       // Possible values for "importStrategy":
       // * 'auto' - (DEFAULT) Auto-import needed Quasar components & directives
@@ -135,7 +135,9 @@ module.exports = function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: [
+        'Loading'
+      ]
     },
 
     // animations: 'all', // --- includes all animations
