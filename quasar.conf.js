@@ -58,8 +58,8 @@ module.exports = function (/* ctx */) {
 
       env: {
         AUTHENDPOINT: 'https://msapop-autenticacion.cloudapps.imss.gob.mx',
-        MONGOENDPOINT: 'https://msapop-consulta-apop.cloudapps.imss.gob.mx',
-        DEBUGG: false
+        MONGOENDPOINT: 'https://msapop-consulta-apop-qa.cloudapps.imss.gob.mx',
+        DEBUGG: true
       },
       // env: {
       //   AUTHENDPOINT: 'https://msapop-autenticacion.cloudapps.imss.gob.mx',

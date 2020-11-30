@@ -14,7 +14,7 @@ mixin GoBackButton
       )
 
 mixin Card1
-  q-card.card.q-py-sm.shadow-8
+  q-card.card.q-py-sm.shadow-8.full-height
     q-item
       q-item-section(avatar='')
         img.q-mt-xs(
@@ -34,7 +34,7 @@ mixin Card1
         ) {{paciente.fecha_nacimiento | DateTime}}
 
 mixin Card2
-  q-card.card.q-py-sm.shadow-8
+  q-card.card.q-py-sm.shadow-8.full-height
     q-item
       q-item-section(
         avatar=''
@@ -64,6 +64,28 @@ mixin Card2
         ) {{paciente.curp}}
 
 mixin Card3
+  q-card.card.q-py-sm.shadow-8.full-height
+    q-item
+      q-item-section(
+        avatar=''
+      )
+        img.q-mt-xs(
+          src='@/assets/img/carnet/icon3.png'
+          style="height: 50px; width: 50px;"
+        )
+      q-item-section
+        q-item-label(
+          caption=''
+        ) Edad
+        q-item-label.text-weight-medium(
+        ) {{paciente.edad}} años
+        q-item-label(
+          caption=''
+        ) Peso
+        q-item-label.text-weight-medium(
+        ) {{paciente.peso}} Kg
+
+mixin Card3b
   q-card.card.q-py-sm.shadow-8
     q-item
       q-item-section(
@@ -79,6 +101,7 @@ mixin Card3
         ) Edad
         q-item-label.text-weight-medium(
         ) {{paciente.edad}} años
+      q-item-section
         q-item-label(
           caption=''
         ) Peso
@@ -107,6 +130,7 @@ mixin Card6
         q-item-label.text-weight-medium {{paciente.diagnostico_cie10}}
         q-item-label(caption='') Información
         q-item-label.text-weight-medium Tipo de mezcla: {{paciente.tipo_mezcla}}
+
 mixin CardKid
   q-card.q-mx-auto.transparent(
     flat=''
@@ -309,7 +333,7 @@ div
         .col-12(
           v-show='!card'
         )
-          +Card3
+          +Card3b
         .col-12
           +Card6
       .q-py-lg
@@ -342,7 +366,7 @@ div
               .col-8
                 q-item-section
                   p.no-margin(
-                  ) Medico(a)
+                  ) Médico(a)
                     br
                     | {{carnet.medico ? carnet.medico : '-'}}
               .col-4

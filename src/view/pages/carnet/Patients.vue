@@ -161,7 +161,7 @@ export default {
         { label: 'CURP', field: 'curp', align: 'left' },
         { label: 'Nombre', field: 'nombre_paciente', align: 'left' },
         { label: 'Edad', field: 'edad', align: 'left' },
-        { label: 'Unidad Médica', field: 'denominacion_unidad_atencion', align: 'left' },
+        { label: 'Unidad médica', field: 'denominacion_unidad_atencion', align: 'left' },
         { label: 'Diagnóstico', field: 'diagnostico_cie10', align: 'left' }
       ]
     }
