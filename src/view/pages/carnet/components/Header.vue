@@ -3,8 +3,8 @@
     span.text-h6.text-weight-bold(
     ) Carnet
     q-separator(
-      color='grey-4'
-      size='2px'
+      color='grey-6'
+      size='1px'
     )
     q-separator(
       color='secondary'

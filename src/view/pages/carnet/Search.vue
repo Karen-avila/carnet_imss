@@ -173,29 +173,27 @@ div
   div(v-if='$q.screen.lt.md && currentUser')
     Header.q-pa-sm
     q-form.q-pa-md
-      p.q-my-md.text-weight-bold(
-      ) Ingresa los datos del paciente
-        .row.q-gutter-y-md
-          .col-12
-            +Nombre
-          .col-12
-            +PrimerApellido
-          .col-12
-            +SegundoApellido
-          .col-12
-            +Curp
-          .col-12
-            +NSS
-          .col-12
-            +Delegacion
-          .col-12
-            +UnidadMedica
-          .col-12
-            +Diagnostico
+      .row.q-gutter-y-md
         .col-12
-          div.q-my-lg.text-center
-            +Reset
-            +Search
+          +Nombre
+        .col-12
+          +PrimerApellido
+        .col-12
+          +SegundoApellido
+        .col-12
+          +Curp
+        .col-12
+          +NSS
+        .col-12
+          +Delegacion
+        .col-12
+          +UnidadMedica
+        .col-12
+          +Diagnostico
+      .col-12
+        div.q-my-lg.text-center
+          +Reset
+          +Search
 </template>
 
 <script>

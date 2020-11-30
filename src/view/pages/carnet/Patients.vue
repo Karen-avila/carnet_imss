@@ -1,4 +1,25 @@
 <template lang="pug">
+mixin GoBackButton
+  .row.q-mb-sm
+    .col
+      q-btn.btn-fixed-width.text-capitalize(
+        bordered=false
+        flat=true
+        align='between'
+        color='blue'
+        text-color='blue'
+        label='Atrás'
+        icon='keyboard_arrow_left'
+        @click='goBack'
+      )
+
+mixin Pagination
+  template(v-slot:pagination='scope')
+    q-btn(v-if='scope.pagesNumber > 2', icon='first_page', color='grey-8', round='', dense='', flat='', :disable='scope.isFirstPage', @click='scope.firstPage')
+    q-btn(icon='chevron_left', color='grey-8', round='', dense='', flat='', :disable='scope.isFirstPage', @click='scope.prevPage')
+    q-btn(icon='chevron_right', color='grey-8', round='', dense='', flat='', :disable='scope.isLastPage', @click='scope.nextPage')
+    q-btn(v-if='pagesNumber > 2', icon='last_page', color='grey-8', round='', dense='', flat='', :disable='scope.isLastPage', @click='scope.lastPage')
+
 mixin Table
   q-table(
     v-if='pacientes.length'
@@ -7,13 +28,12 @@ mixin Table
     bordered=true
     rows-per-page-label='Pacientes por página'
     separator='cell'
-    class="carnet-header-table"
-    table-header-class="bg-yellow-2"
+    class='carnet-header-table'
+    table-header-class='bg-yellow-2'
     :data='pacientes'
     :columns='columns'
-    :dense='$q.screen.lt.md'
     :rows-per-page-options='[10, 25, 50]'
-    :pagination-label="paginationLabel"
+    :pagination-label='paginationLabel'
   )
     template(
       v-slot:body-cell='props'
@@ -31,6 +51,51 @@ mixin Table
         span(
           v-else
         ) {{props.value}}
+    template(
+      v-slot:pagination='scope'
+    )
+      q-btn(
+        v-if='scope.pagesNumber > 2'
+        icon='first_page'
+        color='grey-8'
+        round=''
+        dense=''
+        flat=''
+        size='lg'
+        :disable='scope.isFirstPage'
+        @click='scope.firstPage'
+      )
+      q-btn(
+        icon='chevron_left'
+        color='grey-8'
+        round=''
+        dense=''
+        flat=''
+        size='lg'
+        :disable='scope.isFirstPage'
+        @click='scope.prevPage'
+      )
+      q-btn(
+        icon='chevron_right'
+        color='grey-8'
+        round=''
+        dense=''
+        flat=''
+        size='lg'
+        :disable='scope.isLastPage'
+        @click='scope.nextPage'
+      )
+      q-btn(
+        v-if='scope.pagesNumber > 2'
+        icon='last_page'
+        color='grey-8'
+        round=''
+        dense=''
+        flat=''
+        size='lg'
+        :disable='scope.isLastPage'
+        @click='scope.lastPage'
+      )
 div
   /////////////
   // TEMPLATE DESKTOP
@@ -57,7 +122,8 @@ div
     v-if='$q.screen.lt.md'
   )
     Header.q-mx-md
-    q-card.card.shadow-6.q-my-lg
+    +GoBackButton
+    q-card.card.shadow-6.q-mb-lg
       q-toolbar.bg-amber-2.q-pt-sm(
         style='min-height: .5rem;'
       )
@@ -136,6 +202,9 @@ export default {
     },
     goCarnet (patient) {
       this.$router.push({ name: 'carnet', params: { patient: btoa(JSON.stringify(patient)) } })
+    },
+    goBack () {
+      this.$router.go(-1)
     }
   },
   computed: {

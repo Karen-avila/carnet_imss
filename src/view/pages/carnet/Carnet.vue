@@ -201,11 +201,11 @@ div
       .row.q-col-gutter-x-xl.q-col-gutter-y-md
         .col-10.q-col-gutter-y-lg
           .row.q-col-gutter-x-lg.q-col-gutter-y-md
-            .col-5
+            .col-5(v-if='card')
               +Card1
-            .col-5
+            .col-5(v-if='card')
               +Card2
-            .col-2
+            .col-2(v-if='!card')
               +Card3
           .row.q-col-gutter-x-lg.q-col-gutter-y-md
             .col-7
@@ -238,7 +238,7 @@ div
           .col
             q-item-section
               p.no-margin(
-              ) Médico
+              ) Médico(a)
               p.no-margin.text-grey-7.text-weight-bold(
               ) {{carnet.medico ? carnet.medico : '-'}}
           .col
@@ -268,17 +268,54 @@ div
         .col-12
           +CardKidMobile
     div.bg-mobile.q-px-md
+      .row(
+        style='min-height: 10hv'
+      )
+        .col-12.text-center.q-mt-lg(
+        ) Datos de paciente
+        .col-12.text-center.q-mb-md
+          div(
+            v-show='card'
+          )
+            img.q-mx-xs(
+              src="@/assets/img/carnet/rectangle1.png"
+              @click='card = true'
+            )
+            img.q-mx-xs(
+              src="@/assets/img/carnet/rectangle2.png"
+              @click='card = false'
+            )
+          div(
+            v-show='!card'
+          )
+            img.q-mx-xs(
+              src="@/assets/img/carnet/rectangle2.png"
+              @click='card = true'
+            )
+            img.q-mx-xs(
+              src="@/assets/img/carnet/rectangle1.png"
+              @click='card = false'
+            )
+    div.bg-mobile.q-px-md
       .row.q-gutter-y-md
-        .col-12
+        .col-12(
+          v-show='card'
+        )
           +Card1
-        .col-12
+        .col-12(
+          v-show='card'
+        )
           +Card2
+        .col-12(
+          v-show='!card'
+        )
+          +Card3
         .col-12
           +Card6
       .q-py-lg
         +CardInfo
-    div.bg-mobile.q-px-sm.q-pb-xl
-      q-list.q-mt-lg.card.shadow-8(
+    div.bg-mobile
+      q-list.q-mb-lg.card.shadow-8(
         v-for='(carnet, i) in carnets'
         :key='i'
         bordered=''
@@ -300,7 +337,21 @@ div
               q-item-section
                 p.no-margin(
                 ) {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}` | DateTime}}
-          +TableInfo
+          q-card.q-px-sm
+            .row.q-pb-md.q-pt-sm
+              .col-8
+                q-item-section
+                  p.no-margin(
+                  ) Medico(a)
+                    br
+                    | {{carnet.medico ? carnet.medico : '-'}}
+              .col-4
+                q-item-section
+                  p.no-margin.text-right(
+                  ) Cama
+                    br
+                    | {{carnet.cama && carnet.cama != 0 ? carnet.cama : '-'}}
+            +TableInfo.q-ma-lg
 </template>
 
 <script>
@@ -315,7 +366,8 @@ export default {
   data () {
     return {
       paciente: JSON.parse(atob(this.$route.params.patient)),
-      carnets: []
+      carnets: [],
+      card: true
     }
   },
   mounted () {
@@ -355,6 +407,11 @@ export default {
     },
     goBack () {
       this.$router.go(-1)
+    },
+    handleSwipe ({ evt, ...info }) {
+      console.log(evt)
+      console.log(info)
+      this.swipe = info
     }
   }
 }
