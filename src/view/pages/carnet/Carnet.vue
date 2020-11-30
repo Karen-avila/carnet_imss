@@ -201,11 +201,11 @@ div
       .row.q-col-gutter-x-xl.q-col-gutter-y-md
         .col-10.q-col-gutter-y-lg
           .row.q-col-gutter-x-lg.q-col-gutter-y-md
-            .col-5(v-if='card')
+            .col-5
               +Card1
-            .col-5(v-if='card')
+            .col-5
               +Card2
-            .col-2(v-if='!card')
+            .col-2
               +Card3
           .row.q-col-gutter-x-lg.q-col-gutter-y-md
             .col-7
