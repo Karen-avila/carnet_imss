@@ -104,6 +104,7 @@ div
     v-if='$q.screen.gt.sm'
   )
     Header
+    +GoBackButton
     q-card.card.shadow-6.q-mt-sm
       q-toolbar.bg-amber-2
         span.text-weight-bold.q-ml-lg(
