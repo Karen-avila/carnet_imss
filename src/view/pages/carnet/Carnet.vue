@@ -68,6 +68,7 @@ mixin Card3
     q-item
       q-item-section(
         avatar=''
+        v-if='!$q.screen.md'
       )
         img.q-mt-xs(
           src='@/assets/img/carnet/icon3.png'
@@ -83,7 +84,7 @@ mixin Card3
           caption=''
         ) Peso
         q-item-label.text-weight-medium(
-        ) {{paciente.peso}} Kg
+        ) {{parseFloat(paciente.peso).toFixed(0)}} Kg
 
 mixin Card3b
   q-card.card.q-py-sm.shadow-8
@@ -106,7 +107,7 @@ mixin Card3b
           caption=''
         ) Peso
         q-item-label.text-weight-medium(
-        ) {{paciente.peso}} Kg
+        ) {{parseFloat(paciente.peso).toFixed(0)}} Kg
 
 mixin Card4
   q-card.card.q-py-sm.shadow-8
@@ -433,8 +434,6 @@ export default {
       this.$router.go(-1)
     },
     handleSwipe ({ evt, ...info }) {
-      console.log(evt)
-      console.log(info)
       this.swipe = info
     }
   }

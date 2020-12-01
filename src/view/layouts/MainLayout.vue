@@ -27,7 +27,7 @@ q-layout(
         color=''
         @click='onLogout'
       )
-    q-page-container(
+    q-page-container.q-pa-md(
       :style='$q.screen.lt.md ? "padding-top: 0px;" : "padding-top: 20px;"'
     )
       transition(

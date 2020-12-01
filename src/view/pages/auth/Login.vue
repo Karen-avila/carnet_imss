@@ -41,6 +41,7 @@
               @click='form.isPwd = !form.isPwd'
             )
         vue-recaptcha.q-mt-md(
+          v-if='!debugg'
           ref="recaptcha"
           sitekey='6LfRkssZAAAAAKCmzP4ncb7zoprDvQgLg_8XbNI2'
           :loadrecaptchascript='true'
@@ -116,6 +117,7 @@ export default {
   components: { VueRecaptcha },
   data () {
     return {
+      debugg: process.env.DEBUGG,
       form: {
         username: '',
         password: '',
@@ -152,10 +154,12 @@ export default {
     },
     autenticacion (form) {
       this.$store.dispatch('logout')
-      if (!this.form.recaptcha) {
-        this.$store
-          .dispatch('sendError', 'Valida el reCaptcha')
-        return 0
+      if (!this.debugg) {
+        if (!this.form.recaptcha) {
+          this.$store
+            .dispatch('sendError', 'Valida el reCaptcha')
+          return 0
+        }
       }
       if (this.form.username.length > 17) {
         this.$store
