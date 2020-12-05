@@ -80,7 +80,7 @@ export default {
         .dispatch('logout')
         .then(() => this.$router.push({ name: 'login' }))
     }
-  },
+  }
 }
 </script>
 

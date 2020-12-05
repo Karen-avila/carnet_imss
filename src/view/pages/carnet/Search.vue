@@ -226,6 +226,11 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters([
+      'currentUser'
+    ])
+  },
   mounted () {
     if (this.currentUser.pacientes.length > 0) {
       this.$router.push({ name: 'patients', params: { form: btoa(JSON.stringify(this.form)) } })
@@ -287,11 +292,6 @@ export default {
     goPatients () {
       this.$router.push({ name: 'patients', params: { form: btoa(JSON.stringify(this.form)) } })
     }
-  },
-  computed: {
-    ...mapGetters([
-      'currentUser'
-    ])
   }
 }
 </script>

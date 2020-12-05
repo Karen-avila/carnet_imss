@@ -166,6 +166,11 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters([
+      'currentUser'
+    ])
+  },
   mounted () {
     if (this.currentUser.pacientes.length > 0) {
       this.multipleSearch(this.currentUser.pacientes)
@@ -207,11 +212,6 @@ export default {
     goBack () {
       this.$router.go(-1)
     }
-  },
-  computed: {
-    ...mapGetters([
-      'currentUser'
-    ])
   }
 }
 </script>
