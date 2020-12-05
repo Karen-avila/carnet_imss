@@ -27,8 +27,9 @@ q-layout(
         color=''
         @click='onLogout'
       )
-    q-page-container.q-pa-md(
+    q-page-container(
       :style='$q.screen.lt.md ? "padding-top: 0px;" : "padding-top: 20px;"'
+      :class='$q.screen.gt.sm ? "q-pa-md" : ""'
     )
       transition(
         name='fade'
@@ -50,21 +51,6 @@ export default {
     return {
     }
   },
-  methods: {
-    onLogout () {
-      this.$store
-        .dispatch('logout')
-        .then(() => this.$router.push({ name: 'login' }))
-    }
-  },
-  mounted () {
-    if (!this.isAuthenticated) {
-      this.$router.push({ name: 'login' })
-    }
-    // if (this.authenting && !this.currentUser.pacientes) {
-    //   this.$q.loading.show({ message: 'Actualizando usuario' })
-    // }
-  },
   computed: {
     ...mapGetters([
       'isAuthenticated',
@@ -79,7 +65,22 @@ export default {
       // if (val) this.$q.loading.show({ message: 'Actualizando usuario' })
       // else this.$q.loading.hide()
     }
-  }
+  },
+  mounted () {
+    if (!this.isAuthenticated) {
+      this.$router.push({ name: 'login' })
+    }
+    // if (this.authenting && !this.currentUser.pacientes) {
+    //   this.$q.loading.show({ message: 'Actualizando usuario' })
+    // }
+  },
+  methods: {
+    onLogout () {
+      this.$store
+        .dispatch('logout')
+        .then(() => this.$router.push({ name: 'login' }))
+    }
+  },
 }
 </script>
 

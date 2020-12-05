@@ -1,7 +1,0 @@
-{
-  "appId": "guiapop.imss.gob.mx",
-  "appName": "guiapop-datalakecarnet",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www"
-}

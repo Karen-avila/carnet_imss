@@ -259,7 +259,7 @@ div
               p.no-margin.text-grey-7.text-weight-bold(
               ) {{carnet.denominacion_unidad_atencion ? carnet.denominacion_unidad_atencion : '-'}}
                 br
-                | {{carnet.unidad_medica_atencion ? carnet.unidad_medica_atencion : '-'}}
+                | {{carnet.unidad_medica_atencion ? carnet.unidad_medica_atencion : ''}}
           .col
             q-item-section
               p.no-margin(
@@ -271,7 +271,7 @@ div
               p.no-margin(
               ) Cama
               p.no-margin.text-grey-7.text-weight-bold(
-              ) {{carnet.cama && carnet.cama != 0 ? carnet.cama : '-'}}
+              ) {{carnet.cama && carnet.cama != 0 ? carnet.cama : ''}}
           .col
             q-item-section
               p.no-margin(
@@ -357,7 +357,7 @@ div
                 p.no-margin(
                 ) {{carnet.denominacion_unidad_atencion ? carnet.denominacion_unidad_atencion : '-'}}
                   br
-                  | {{carnet.unidad_medica_atencion ? carnet.unidad_medica_atencion : '-'}}
+                  | {{carnet.unidad_medica_atencion ? carnet.unidad_medica_atencion : ''}}
             .col-3
               q-item-section
                 p.no-margin(
@@ -375,7 +375,7 @@ div
                   p.no-margin.text-right(
                   ) Cama
                     br
-                    | {{carnet.cama && carnet.cama != 0 ? carnet.cama : '-'}}
+                    | {{carnet.cama && carnet.cama != 0 ? carnet.cama : ''}}
             +TableInfo.q-ma-lg
 </template>
 
