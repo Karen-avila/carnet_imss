@@ -158,60 +158,28 @@ mixin CardInfo
     | *La información de los medicamentos proviene de centros de mezcla subrogados
 
 mixin TableInfo
-  q-markup-table.card(
-    separator='cell'
-  )
-    thead.bg-yellow-2
-      tr
-        th.text-center(
-        ) Genérico
-        th.text-center(
-        ) Consumo
-        th.text-center(
-        ) Cantidad
-        th.text-center(
-        ) Tipo
-        th.text-center(
-        ) Estatus
-    tbody
-      template(
-        v-for='prescription in carnet.carnet'
-        v-if='prescription.tipo !== "Instrumental Médico"'
-      )
-        tr
-          // td.text-center {{prescription.id_prescripcion}}
-          td.text-left.text-weight-medium(
-          ) {{prescription.generico}}
-          td.text-left.text-weight-medium(
-          ) {{prescription.consumo}} {{prescription.unidad_medida}}
-          td.text-center.text-weight-medium(
-          ) {{prescription.cantidad_bolos}}
-          td.text-left.text-weight-medium(
-          ) {{prescription.tipo}}
-          td.text-center.text-weight-medium(
-            v-if='!prescription.motivo'
-            :class='{"bg-red-1 text-negative": prescription.entregado === "NO ENTREGADO", "bg-green-11 text-green-8": prescription.entregado === "ENTREGADO"}'
-          )
-            span(
-            ) {{prescription.entregado ? prescription.entregado : '-' | Capitalize}}
-          td.text-center.text-weight-medium.bg-red-1.text-negative(
-            v-else
-            @click='prescription.expand = !prescription.expand'
-          )
-            span(
-            ) {{prescription.entregado ? prescription.entregado : '-' | Capitalize}}
-        tr(
-          v-show='prescription.expand'
-        )
-          td.bg-white(
-            colspan='100%'
-            style='border-top: 2px solid red'
-          )
-            q-icon.text-negative(
-              name='error_outline'
-            )
-            span.q-ml-md(
-            ) {{prescription.motivo ? prescription.motivo : '-' | Capitalize}}
+  template
+    q-table.my-sticky-header-table(:data='carnet.carnet', :columns='columns', row-key='name', binary-state-sort='')
+      template(v-slot:body='props')
+        q-tr(:props='props')
+          q-td.text-left.text-weight-medium(key='generico', :props='props')
+            | {{ props.row.generico }}
+            q-popup-edit(v-model='props.row.generico')
+              q-input(v-model='props.row.generico', dense='', autofocus='', counter='')
+          q-td.text-left.text-weight-medium(key='consumo', :props='props')
+            | {{ `${props.row.consumo} ${props.row.unidad_medida}`}}
+          q-td.text-left.text-weight-medium(key='cantidad', :props='props')
+            .text-pre-wrap {{ props.row.cantidad_bolos }}
+          q-td.text-left.text-weight-medium(key='tipo', :props='props')
+            | {{ props.row.tipo }}
+          q-td.text-center.text-weight-medium(v-if='!props.row.motivo', :class='{"bg-red-1 text-negative": props.row.entregado === "NO ENTREGADO", "bg-green-11 text-green-8": props.row.entregado === "ENTREGADO"}')
+            span {{props.row.entregado ? props.row.entregado : &apos;-&apos; | Capitalize}}
+          q-td.text-center.text-weight-medium.bg-red-1.text-negative(v-else='v-else', @click='props.row.expand = !propw.row.expand')
+            span {{props.row.entregado ? props.row.entregado : &apos;-&apos; | Capitalize}}
+        q-tr(:props='props', v-show='props.row.expand')
+          q-td.bg-white(colspan='100%', style='border-top: 2px solid red')
+            q-icon.text-negative(name='error_outline')
+            span.q-ml-md {{props.row.motivo ? props.row.motivo : &apos;-&apos; | Capitalize}}
 
 div
   /////////////
@@ -392,7 +360,54 @@ export default {
     return {
       paciente: JSON.parse(atob(this.$route.params.patient)),
       carnets: [],
-      card: true
+      card: true,
+      columns: [
+        {
+          name: 'generico',
+          required: true,
+          label: 'Genérico',
+          align: 'center',
+          field: row => row.generico,
+          format: val => `${val}`,
+          sortable: true
+        },
+        {
+          name: 'consumo',
+          required: false,
+          label: 'Consumo',
+          align: 'center',
+          field: row => row.consumo,
+          format: val => `${val}`,
+          sortable: true
+        },
+        {
+          name: 'cantidad',
+          required: false,
+          label: 'Cantidad',
+          align: 'center',
+          field: row => row.cantidad_bolos,
+          format: val => `${val}`,
+          sortable: true
+        },
+        {
+          name: 'tipo',
+          required: false,
+          label: 'Tipo',
+          align: 'center',
+          field: row => row.tipo,
+          format: val => `${val}`,
+          sortable: true
+        },
+        {
+          name: 'entregado',
+          required: false,
+          label: 'Entregado',
+          align: 'center',
+          field: row => row.entregado ? row.entregado : '',
+          format: val => `${val}`,
+          sortable: true
+        }
+      ]
     }
   },
   mounted () {
@@ -470,4 +485,24 @@ export default {
   .q-table__bottom,
   thead tr:first-child th
     background-color: $yellow-2
+.my-sticky-header-table
+  /* height or max-height is important */
+  height: auto
+
+  .q-table__top,
+  thead tr:first-child th
+    /* bg color is important for th; just specify one */
+    background-color: $yellow-2
+
+  thead tr th
+    position: sticky
+    z-index: 1
+  thead tr:first-child th
+    top: 0
+  .q-table__bottom
+    display: none
+  /* this is when the loading indicator appears */
+  &.q-table--loading thead tr:last-child th
+    /* height of all previous header rows */
+    display: 0px
 </style>
