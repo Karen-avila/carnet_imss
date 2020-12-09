@@ -1,0 +1,41 @@
+<q-markup-table class="card" separator="cell">
+  <thead class="bg-yellow-2">
+    <tr>
+      <th class="text-center">Gen&eacute;rico</th>
+      <th class="text-center">Consumo</th>
+      <th class="text-center">Cantidad</th>
+      <th class="text-center">Tipo</th>
+      <th class="text-center">Estatus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <template v-for="prescription in carnet.carnet" v-if="prescription.tipo !== &quot;Instrumental Médico&quot;">
+      <tr>
+        <!-- td.text-center {{prescription.id_prescripcion}}-->
+        <td class="text-left text-weight-medium">
+          {{prescription.generico}}
+          <q-popup-edit v-model="prescription.generico" title="Edit the Name">
+            <q-input v-model="prescription.generico" dense autofocus counter />
+          </q-popup-edit>
+        </td>
+        <td class="text-left text-weight-medium">{{prescription.consumo}} {{prescription.unidad_medida}}</td>
+        <td class="text-center text-weight-medium">{{prescription.cantidad_bolos}}</td>
+        <td class="text-left text-weight-medium">{{prescription.tipo}}</td>
+        <td class="text-center text-weight-medium" v-if="!prescription.motivo"
+          :class="{&quot;bg-red-1 text-negative&quot;: prescription.entregado === &quot;NO ENTREGADO&quot;, &quot;bg-green-11 text-green-8&quot;: prescription.entregado === &quot;ENTREGADO&quot;}">
+          <span>{{prescription.entregado ? prescription.entregado : &apos;-&apos; | Capitalize}}</span>
+        </td>
+        <td class="text-center text-weight-medium bg-red-1 text-negative" v-else="v-else"
+          @click="prescription.expand = !prescription.expand">
+          <span>{{prescription.entregado ? prescription.entregado : &apos;-&apos; | Capitalize}}</span>
+        </td>
+      </tr>
+      <tr v-show="prescription.expand">
+        <td class="bg-white" colspan="100%" style="border-top: 2px solid red">
+          <q-icon class="text-negative" name="error_outline"></q-icon>
+          <span class="q-ml-md">{{prescription.motivo ? prescription.motivo : &apos;-&apos; | Capitalize}}</span>
+        </td>
+      </tr>
+    </template>
+  </tbody>
+</q-markup-table>

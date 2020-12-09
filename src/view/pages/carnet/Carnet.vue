@@ -247,6 +247,7 @@ div
               p.no-margin.text-grey-7.text-weight-bold(
               ) {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}` | DateTime}}
         +TableInfo
+        MedForm
   /////////////
   // TEMPLATE MOBILE
   /////////////
@@ -350,11 +351,13 @@ div
 <script>
 import ApiMongoService from '@/boot/services/api.mongo.service'
 import Header from './components/Header.vue'
+import MedForm from './components/MedForm'
 import { CARNET } from '@/boot/endpoints/carnet'
 import moment from 'moment'
 export default {
   components: {
-    Header
+    Header,
+    MedForm
   },
   data () {
     return {
@@ -442,6 +445,7 @@ export default {
           this.paciente = data[0]
         })
         .finally(() => {
+          console.log('los carnets del paciente ', this.carnets)
           this.$q.loading.hide()
         })
     },
