@@ -1,5 +1,5 @@
 <template lang="pug">
-//Mixins: codigo pug reutilizable, se llama con el prefijo '+', puedes agregarle parametros
+<q-dialog v-model="registro">
 mixin unidad_atencion
   label.text-weight-bold Unidad de atención:
   q-select(
@@ -149,6 +149,7 @@ mixin fecha_aplicacion
         +estatus_aplicacion
       .col-6.self-end
         +fecha_aplicacion
+</q-dialog>
 </template>
 
 <script src="./MedForm.js"></script>

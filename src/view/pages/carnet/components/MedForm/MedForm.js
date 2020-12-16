@@ -4,6 +4,7 @@ import { GETOPTIONS } from '@/boot/endpoints/carnet'
 export default {
   data () {
     return {
+      registro: this.dialogopens,
       form: {
         unidad_atencion: '',
         medico: '',
@@ -23,11 +24,18 @@ export default {
       }
     }
   },
+  props: ['dialogopens'],
   async mounted () {
     this.options.unidades_atencion = await this.getOptions('denominacion_unidad_atencion', '')
     this.options.medicos = await this.getOptions('medico', '')
   },
+  update () {
+    console.log('hola', this.dialogopens)
+  },
   methods: {
+    openPayment() {
+      this.$root.$refs["dialog"].open()
+    },
     getOptions (key, value) {
       return ApiMongoService.get(GETOPTIONS, { key: key, value: value })
         .then(response => response.json())

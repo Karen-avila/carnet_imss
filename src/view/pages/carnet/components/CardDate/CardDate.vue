@@ -44,6 +44,6 @@
               label.text-weight-medium {{'HG CMMN La Raza - Dr Gaudencio Gonzalez Garza'}}
     .q-mx-md
       TableInfo(:data='data')
+    MedForm(:dialogopens = 'dialogopen')
 </template>
-
 <script src="./CardDate.js"></script>
