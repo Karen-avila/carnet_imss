@@ -157,30 +157,6 @@ mixin CardInfo
   div.full-width.text-center
     | *La información de los medicamentos proviene de centros de mezcla subrogados
 
-mixin TableInfo
-  template
-    q-table.my-sticky-header-table(:data='carnet.carnet', :columns='columns', row-key='name', binary-state-sort='')
-      template(v-slot:body='props')
-        q-tr(:props='props')
-          q-td.text-left.text-weight-medium(key='generico', :props='props')
-            | {{ props.row.generico }}
-            q-popup-edit(v-model='props.row.generico')
-              q-input(v-model='props.row.generico', dense='', autofocus='', counter='')
-          q-td.text-left.text-weight-medium(key='consumo', :props='props')
-            | {{ `${props.row.consumo} ${props.row.unidad_medida}`}}
-          q-td.text-left.text-weight-medium(key='cantidad', :props='props')
-            .text-pre-wrap {{ props.row.cantidad_bolos }}
-          q-td.text-left.text-weight-medium(key='tipo', :props='props')
-            | {{ props.row.tipo }}
-          q-td.text-center.text-weight-medium(v-if='!props.row.motivo', :class='{"bg-red-1 text-negative": props.row.entregado === "NO ENTREGADO", "bg-green-11 text-green-8": props.row.entregado === "ENTREGADO"}')
-            span {{props.row.entregado ? props.row.entregado : &apos;-&apos; | Capitalize}}
-          q-td.text-center.text-weight-medium.bg-red-1.text-negative(v-else='v-else', @click='props.row.expand = !propw.row.expand')
-            span {{props.row.entregado ? props.row.entregado : &apos;-&apos; | Capitalize}}
-        q-tr(:props='props', v-show='props.row.expand')
-          q-td.bg-white(colspan='100%', style='border-top: 2px solid red')
-            q-icon.text-negative(name='error_outline')
-            span.q-ml-md {{props.row.motivo ? props.row.motivo : &apos;-&apos; | Capitalize}}
-
 div
   /////////////
   // TEMPLATE DESKTOP
@@ -214,40 +190,8 @@ div
       :key='i'
       bordered=''
     )
-      q-expansion-item.card.bg-grey-2(
-        group='carnets'
-        icon='explore'
-      )
-        template(
-          v-slot:header=''
-        )
-          .col
-            q-item-section
-              p.no-margin Unidad de atención
-              p.no-margin.text-grey-7.text-weight-bold(
-              ) {{carnet.denominacion_unidad_atencion ? carnet.denominacion_unidad_atencion : '-'}}
-                br
-                | {{carnet.unidad_medica_atencion ? carnet.unidad_medica_atencion : ''}}
-          .col
-            q-item-section
-              p.no-margin(
-              ) Médico(a)
-              p.no-margin.text-grey-7.text-weight-bold(
-              ) {{carnet.medico ? carnet.medico : '-'}}
-          .col
-            q-item-section
-              p.no-margin(
-              ) Cama
-              p.no-margin.text-grey-7.text-weight-bold(
-              ) {{carnet.cama && carnet.cama != 0 ? carnet.cama : ''}}
-          .col
-            q-item-section
-              p.no-margin(
-              ) Fecha
-              p.no-margin.text-grey-7.text-weight-bold(
-              ) {{`${carnet.fecha_prescripcion ? carnet.fecha_prescripcion : '-'}` | DateTime}}
-        +TableInfo
-        MedForm
+      CardDate(:data='carnet.carnet')
+        //MedForm
   /////////////
   // TEMPLATE MOBILE
   /////////////
@@ -345,72 +289,30 @@ div
                   ) Cama
                     br
                     | {{carnet.cama && carnet.cama != 0 ? carnet.cama : ''}}
-            +TableInfo.q-ma-lg
+            //+TableInfo.q-ma-lg
+            //TableInfo(:data='carnet.carnet')
 </template>
 
 <script>
 import ApiMongoService from '@/boot/services/api.mongo.service'
 import Header from './components/Header.vue'
 import MedForm from './components/MedForm'
+import TableInfo from './components/TableInfo'
+import CardDate from './components/CardDate'
 import { CARNET } from '@/boot/endpoints/carnet'
 import moment from 'moment'
 export default {
   components: {
     Header,
-    MedForm
+    MedForm,
+    TableInfo,
+    CardDate
   },
   data () {
     return {
       paciente: JSON.parse(atob(this.$route.params.patient)),
       carnets: [],
-      card: true,
-      columns: [
-        {
-          name: 'generico',
-          required: true,
-          label: 'Genérico',
-          align: 'center',
-          field: row => row.generico,
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: 'consumo',
-          required: false,
-          label: 'Consumo',
-          align: 'center',
-          field: row => row.consumo,
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: 'cantidad',
-          required: false,
-          label: 'Cantidad',
-          align: 'center',
-          field: row => row.cantidad_bolos,
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: 'tipo',
-          required: false,
-          label: 'Tipo',
-          align: 'center',
-          field: row => row.tipo,
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: 'entregado',
-          required: false,
-          label: 'Entregado',
-          align: 'center',
-          field: row => row.entregado ? row.entregado : '',
-          format: val => `${val}`,
-          sortable: true
-        }
-      ]
+      card: true
     }
   },
   mounted () {

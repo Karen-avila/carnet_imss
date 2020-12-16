@@ -61,7 +61,7 @@ module.exports = function (/* ctx */) {
         MONGOENDPOINT: 'https://msapop-consulta-apop-qa.cloudapps.imss.gob.mx',
         // DEBUGG: false
         // AUTHENDPOINT: 'https://msapop-autenticacion.cloudapps.imss.gob.mx',
-        // MONGOENDPOINT: 'http://localhost:5000',
+        //MONGOENDPOINT: 'http://localhost:5000',
         DEBUGG: false
       },
 
