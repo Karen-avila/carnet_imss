@@ -21,7 +21,7 @@ mixin unidad_atencion
         ) No hay coincidencias
 
 mixin medico
-  label.text-weight-bold Médico (a):
+  label.text-weight-bold Médico (a)*:
   q-select(
     outlined=''
     dense=''
@@ -51,7 +51,7 @@ mixin cama
   )
 
 mixin fecha_prescripcion
-  label.text-weight-bold Fecha de prescripción :
+  label.text-weight-bold Fecha de prescripción*:
   q-input(filled='', v-model='form.fecha_prescripcion', mask='date', :rules="['date']")
     template(v-slot:append='')
       q-icon.cursor-pointer(name='event')
@@ -59,52 +59,46 @@ mixin fecha_prescripcion
           q-date(v-model='form.fecha_prescripcion')
             .row.items-center.justify-end
               q-btn(v-close-popup='', label='Cerrar', color='primary', flat='')
-
 mixin generico
-  label.text-weight-bold Genérico :
+  label.text-weight-bold Genérico*:
   q-input(
     v-model="form.generico",
     dense="",
     outlined="",
     placeholder="Genérico"
   )
-
 mixin consumo
-  label.text-weight-bold Consumo :
-  .row
-    .col-6.self-end
+  label.text-weight-bold Consumo*:
       q-input(
         v-model="form.numerico",
         dense="",
         outlined="",
         placeholder="Numérico"
       )
-    .col-6.self-end
+mixin unidad_medida
+  label.text-weight-bold Unidad de medida*:
       q-input(
         v-model="form.unidad_medida",
         dense="",
         outlined="",
         placeholder="Unidad de medida"
       )
-
 mixin cantidad
-  label.text-weight-bold Cantidad :
+  label.text-weight-bold Cantidad*:
   q-input(
     v-model="form.cantidad",
     dense="",
     outlined="",
     placeholder="Cantidad"
   )
-
 mixin tipo
-  label.text-weight-bold Tipo :
+  label.text-weight-bold Tipo*:
   q-input(
     v-model="form.tipo",
     dense="",
     outlined="",
     placeholder="Tipo"
   )
-
 mixin estatus_aplicacion
   label.text-weight-bold Estatus de aplicación :
   q-input(
@@ -113,7 +107,6 @@ mixin estatus_aplicacion
     outlined="",
     placeholder="Estatus de aplicación"
   )
-
 mixin fecha_aplicacion
   label.text-weight-bold Fecha de aplicación :
   q-input(
@@ -129,9 +122,9 @@ q-dialog(v-model='alert')
   q-card.q-px-lg(style='max-height: 100vh')
     .layout.q-mx-auto.q-mb-xl
       q-form.q-col-gutter-y-sm(@submit="onSubmit", @reset="onReset")
-        h6.q-my-md.text-weight-bold() &nbsp; &nbsp; &nbsp;Nuevo Registro {{computedDialog}}
+        h6.q-my-md.text-light-green-10.text-weight-bold() &nbsp; &nbsp; &nbsp;Nuevo Registro {{computedDialog}}
         .row.q-col-gutter-x-md.q-col-gutter-y-md.q-px-sm
-          .col-6.self-end
+          .col-12.self-end
             +unidad_atencion
           .col-6.self-end
             +medico
@@ -140,9 +133,16 @@ q-dialog(v-model='alert')
           .col-6.self-end
             +fecha_prescripcion
           .col-6.self-end
+          .col-12.self-end
+            q-separator(
+              color='grey-5'
+            )
+          .col-4.self-end
             +generico
-          .col-6.self-end
+          .col-4.self-end
             +consumo
+          .col-4.self-end
+            +unidad_medida
           .col-6.self-end
             +cantidad
           .col-6.self-end
@@ -151,23 +151,23 @@ q-dialog(v-model='alert')
             +estatus_aplicacion
           .col-6.self-end
             +fecha_aplicacion
-    <q-footer elevated>
-          <q-toolbar>
-            q-btn.btn-fixed-width(
+    q-footer.q-pa-sm(style='position: relative')
+      q-toolbar
+        .q-gutter-xl
+            q-btn(
               outline='',
               align='right',
               style='color: #E0BC81',
               label='Cancelar')
-            q-btn.btn-fixed-width(
+            q-btn(
               outline='',
               align='right',
               style='color: #9d2449',
               label='Agregar Registro')
-          </q-toolbar>
-    </q-footer>
 </template>
 
 <script src="./MedForm.js"></script>
-
 <style lang="sass">
+.q-layout__section--marginal
+    background-color: #F1F1F1
 </style>

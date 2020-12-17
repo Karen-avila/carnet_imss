@@ -280,7 +280,7 @@ div
               .col-8
                 q-item-section
                   p.no-margin(
-                  ) Médico(a)
+                  ) Médico(a)*
                     br
                     | {{carnet.medico ? carnet.medico : '-'}}
               .col-4
