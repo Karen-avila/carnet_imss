@@ -21,7 +21,7 @@ export default {
         unidades_atencion: [],
         medicos: []
       },
-      alert: this.computedDialog
+      alert: false
     }
   },
   props: ['dialogopens'],
@@ -30,12 +30,10 @@ export default {
     this.options.unidades_atencion = await this.getOptions('denominacion_unidad_atencion', '')
     this.options.medicos = await this.getOptions('medico', '')
   },
-  computed: {
-    computedDialog () {
-      this.alert = this.dialogopens
-    }
-  },
   watch: {
+    dialogopens (newValue, oldValue) {
+      this.alert = newValue
+    },
     alert (newValue, oldValue) {
       if (!newValue) {
         this.alert = newValue
