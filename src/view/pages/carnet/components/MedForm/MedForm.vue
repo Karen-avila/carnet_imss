@@ -126,10 +126,10 @@ mixin fecha_aplicacion
 //Aqui comienza la vista del formulario
 
 q-dialog(v-model='alert')
-  q-card.q-px-lg
+  q-card.q-px-lg(style='max-height: 100vh')
     .layout.q-mx-auto.q-mb-xl
       q-form.q-col-gutter-y-sm(@submit="onSubmit", @reset="onReset")
-        p.q-my-md.text-weight-bold() Ingresa los datos del Medicamento {{computedDialog}}
+        h6.q-my-md.text-weight-bold() Nuevo Registro {{computedDialog}}
         .row.q-col-gutter-x-md.q-col-gutter-y-md.q-px-sm
           .col-6.self-end
             +unidad_atencion
@@ -151,6 +151,20 @@ q-dialog(v-model='alert')
             +estatus_aplicacion
           .col-6.self-end
             +fecha_aplicacion
+    <q-footer elevated>
+          <q-toolbar>
+            q-btn.btn-fixed-width(
+              outline='',
+              align='right',
+              style='color: #E0BC81',
+              label='Cancelar')
+            q-btn.btn-fixed-width(
+              outline='',
+              align='right',
+              style='color: #9d2449',
+              label='Agregar Registro')
+          </q-toolbar>
+    </q-footer>
 </template>
 
 <script src="./MedForm.js"></script>
