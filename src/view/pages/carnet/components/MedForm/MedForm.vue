@@ -1,5 +1,4 @@
 <template lang="pug">
-<q-dialog v-model="registro">
 mixin unidad_atencion
   label.text-weight-bold Unidad de atención:
   q-select(
@@ -125,31 +124,33 @@ mixin fecha_aplicacion
   )
 
 //Aqui comienza la vista del formulario
-.layout.q-mx-auto.q-mb-xl
-  q-form.q-col-gutter-y-sm(@submit="onSubmit", @reset="onReset")
-    p.q-my-md.text-weight-bold() Ingresa los datos del Medicamento
-    .row.q-col-gutter-x-md.q-col-gutter-y-md.q-px-sm
-      .col-6.self-end
-        +unidad_atencion
-      .col-6.self-end
-        +medico
-      .col-6.self-end
-        +cama
-      .col-6.self-end
-        +fecha_prescripcion
-      .col-6.self-end
-        +generico
-      .col-6.self-end
-        +consumo
-      .col-6.self-end
-        +cantidad
-      .col-6.self-end
-        +tipo
-      .col-6.self-end
-        +estatus_aplicacion
-      .col-6.self-end
-        +fecha_aplicacion
-</q-dialog>
+
+q-dialog(v-model='alert')
+  q-card.q-px-lg
+    .layout.q-mx-auto.q-mb-xl
+      q-form.q-col-gutter-y-sm(@submit="onSubmit", @reset="onReset")
+        p.q-my-md.text-weight-bold() Ingresa los datos del Medicamento {{computedDialog}}
+        .row.q-col-gutter-x-md.q-col-gutter-y-md.q-px-sm
+          .col-6.self-end
+            +unidad_atencion
+          .col-6.self-end
+            +medico
+          .col-6.self-end
+            +cama
+          .col-6.self-end
+            +fecha_prescripcion
+          .col-6.self-end
+            +generico
+          .col-6.self-end
+            +consumo
+          .col-6.self-end
+            +cantidad
+          .col-6.self-end
+            +tipo
+          .col-6.self-end
+            +estatus_aplicacion
+          .col-6.self-end
+            +fecha_aplicacion
 </template>
 
 <script src="./MedForm.js"></script>

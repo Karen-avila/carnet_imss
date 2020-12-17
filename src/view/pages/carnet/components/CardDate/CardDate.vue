@@ -5,11 +5,12 @@
         q-date(v-model='date_prescription', minimal, :style='objectStyle')
       div.col-7.self-center
         .flex.justify-between.q-my-md
-          text-subtitle2.text-uppercase.text-weight-bold {{'Información'}}
+          label.text-uppercase.text-weight-bold {{'Información'}}
           q-btn.btn-fixed-width(
             align='left',
             style='color: #9d2449',
             flat, rounded,
+            @click='isOpenDialog = true'
             label='Añadir Registro',
             icon-right='note_add')
         q-separator(
@@ -28,6 +29,7 @@
             q-select(
               outlined=''
               dense=''
+              v-model='medico'
               placeholder='Selecciona la delegación'
               use-input=''
               hide-selected=''
@@ -44,6 +46,6 @@
               label.text-weight-medium {{'HG CMMN La Raza - Dr Gaudencio Gonzalez Garza'}}
     .q-mx-md
       TableInfo(:data='data')
-    MedForm(:dialogopens = 'dialogopen')
+    MedForm(:dialogopens='isOpenDialog', @close-modal='isOpenDialog = false')
 </template>
 <script src="./CardDate.js"></script>

@@ -7,7 +7,8 @@ export default {
       objectStyle: {
         bordered: true
       },
-      dialogopen: false
+      isOpenDialog: false,
+      medico: ''
     }
   },
   components: {
