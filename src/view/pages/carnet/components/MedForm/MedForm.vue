@@ -129,7 +129,7 @@ q-dialog(v-model='alert')
   q-card.q-px-lg(style='max-height: 100vh')
     .layout.q-mx-auto.q-mb-xl
       q-form.q-col-gutter-y-sm(@submit="onSubmit", @reset="onReset")
-        h6.q-my-md.text-weight-bold() Nuevo Registro {{computedDialog}}
+        h6.q-my-md.text-weight-bold() &nbsp; &nbsp; &nbsp;Nuevo Registro {{computedDialog}}
         .row.q-col-gutter-x-md.q-col-gutter-y-md.q-px-sm
           .col-6.self-end
             +unidad_atencion

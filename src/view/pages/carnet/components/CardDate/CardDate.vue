@@ -30,7 +30,7 @@
               outlined=''
               dense=''
               v-model='medico'
-              placeholder='Selecciona la delegación'
+              placeholder='Selecciona Medico(a)'
               use-input=''
               hide-selected=''
               fill-input=''
